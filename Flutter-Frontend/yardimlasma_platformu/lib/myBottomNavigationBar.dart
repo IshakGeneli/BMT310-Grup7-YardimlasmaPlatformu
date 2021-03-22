@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:my_test/questScreen.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   @override
@@ -11,14 +10,15 @@ class MyBottomNavigationBar extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           IconButton(
               onPressed: () {
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName(QuestScreen.routeName)
-                );
+                Navigator.popUntil(context, ModalRoute.withName('/'));
               },
               icon: const Icon(Icons.home)),
-          IconButton(onPressed: null, icon: const Icon(MdiIcons.trophy)),
-          IconButton(onPressed: null, icon: const Icon(Icons.person)),
+          IconButton(
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/questsList'));
+              },
+              icon: const Icon(Icons.assignment)),
+          IconButton(onPressed: null, icon: const Icon(MdiIcons.accountCircle)),
           IconButton(onPressed: null, icon: const Icon(Icons.settings)),
         ]),
       ),

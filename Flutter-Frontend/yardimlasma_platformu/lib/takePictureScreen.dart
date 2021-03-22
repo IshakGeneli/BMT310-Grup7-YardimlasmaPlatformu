@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 
 
-import 'dart:async';
-
 class TakePictureScreen extends StatefulWidget {
   static const routeName = "/camera";
 

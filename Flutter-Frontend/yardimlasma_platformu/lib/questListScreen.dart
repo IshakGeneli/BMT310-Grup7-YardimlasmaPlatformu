@@ -2,10 +2,16 @@ import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
 import 'detailsScreen.dart';
+import 'quest.dart';
 
-class QuestScreen extends StatelessWidget {
-  static const String routeName = "/";
 
+class QuestListScreen extends StatefulWidget{
+  static const String routeName = "/questsList";
+  @override
+  QuestListScreenState createState()=>QuestListScreenState();
+}
+
+class QuestListScreenState extends State {
   final _quests = List<Quest>.generate(
     30,
     (index) => Quest(
@@ -14,7 +20,10 @@ class QuestScreen extends StatelessWidget {
         DateTime.utc(2021, 1, 1),
         "Mete",
         Difficulty.easy,
-        location: LatLng(37.42796133580664, -122.085749655962)),
+        location: LatLng(37.42796133580664, -122.085749655962),
+        imageLink: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/14331954471197.595cd9574ad45.jpg",
+        hasFollowed: false,
+        ),
   );
 
   @override
@@ -28,7 +37,7 @@ class QuestScreen extends StatelessWidget {
               floating: false,
               expandedHeight: 160.0,
               flexibleSpace: const FlexibleSpaceBar(
-                title: Text("Quest Board"),
+                title: const Text("Quest Board"),
                 background: FlutterLogo(),
               ),
             ),
@@ -111,9 +120,9 @@ class QuestScreen extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
             q.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
           ),
-          _buildDifficultyText(q.difficulty),
+          Row(children: [_buildDifficultyText(q.difficulty), Icon(q.hasFollowed? Icons.location_on: Icons.location_on_outlined) ]),
         ]),
       ),
       subtitle: Container(
@@ -139,7 +148,7 @@ class QuestScreen extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                settings: RouteSettings(name: "$routeName/${q.title}"),
+                settings: RouteSettings(name: "${QuestListScreen.routeName}/${q.title}"),
                 builder: (context) => DetailScreen(q)));
       },
     );
