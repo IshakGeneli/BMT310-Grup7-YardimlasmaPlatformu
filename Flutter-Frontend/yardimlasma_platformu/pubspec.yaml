@@ -32,6 +32,7 @@ dependencies:
   material_design_icons_flutter: ^4.0.5955
   google_maps_flutter: ^2.0.1
   geocoding: ^1.0.5
+  image_picker: ^0.7.3
 
 
 dev_dependencies:

@@ -2,42 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geocoding/geocoding.dart' as geocoding;
 import 'dart:async';
 import 'myBottomNavigationBar.dart';
 
-enum Difficulty {
-  easy,
-  normal,
-  hard,
-  hell,
-}
-
-class Quest {
-  final String title;
-  final String description;
-  final DateTime date;
-  final String questGiver;
-  final Difficulty difficulty;
-  final LatLng location;
-
-  Quest(
-      this.title, this.description, this.date, this.questGiver, this.difficulty,
-      {this.location});
-
-  Future<String> requestAdress() async {
-    if (location != null) {
-      try {
-        List<geocoding.Placemark> placemarks = await geocoding
-            .placemarkFromCoordinates(location.latitude, location.longitude);
-        return "${placemarks[0].locality} / ${placemarks[0].country}";
-      } catch (e) {
-        print(e.toString());
-      }
-    }
-    return null;
-  }
-}
+import 'quest.dart';
 
 class DetailScreen extends StatefulWidget {
   final Quest _quest;
@@ -56,47 +24,50 @@ class DetailScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    Container locationSection = Container(
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(5, 0, 5, 20),
-            child: FutureBuilder<String>(
-                future: _quest.requestAdress(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError)
-                    return Text("Error: " + snapshot.error);
+    Container locationSection = _quest.location != null
+        ? Container(
+            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(5, 0, 5, 20),
+                  child: FutureBuilder<String>(
+                      future: _quest.requestAdress(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError)
+                          return Text("Error: " + snapshot.error);
 
-                  return snapshot.hasData
-                      ? Text(
-                          "Konum: ${snapshot.data}",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )
-                      : Container();
-                }),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3,
-            child: GoogleMap(
-              mapType: MapType.hybrid,
-              initialCameraPosition: CameraPosition(
-                target: _quest.location,
-                zoom: 14.4746,
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              markers: Set.from(
-                  [Marker(markerId: MarkerId(""), position: _quest.location)]),
+                        return snapshot.hasData
+                            ? Text(
+                                "Konum: ${snapshot.data}",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            : Container();
+                      }),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: GoogleMap(
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: CameraPosition(
+                      target: _quest.location,
+                      zoom: 14.4746,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    markers: Set.from([
+                      Marker(markerId: MarkerId(""), position: _quest.location)
+                    ]),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Container();
 
     Container buttonSection = Container(
       margin: EdgeInsets.all(20),
@@ -104,16 +75,26 @@ class DetailScreenState extends State {
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildIconButton(Icons.search, "Kanit Yukle", (){Navigator.pushNamed(context, "/camera");}),
-          _buildIconButton(Icons.location_on_outlined, "Takip Et", null),
+          _buildIconButton(Icons.search, "Kanit Yukle", () {
+            Navigator.pushNamed(context, "/camera");
+          }),
+          _buildIconButton(
+              _quest.hasFollowed
+                  ? Icons.location_on
+                  : Icons.location_on_outlined,
+              _quest.hasFollowed ? "Takip Ediliyor" : "Takip Et", () {
+            setState(() {
+              _follow();
+            });
+          }),
           _buildIconButton(Icons.message, "Iletisime Gec", null),
         ],
       )),
     );
 
     Container infoSection = Container(
-      padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
       child: Column(children: [
+        _quest.getImage(),
         Container(
           margin: EdgeInsets.all(20),
           child: Text(
@@ -155,8 +136,17 @@ class DetailScreenState extends State {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: ListView(children: [infoSection, buttonSection, locationSection]),
+        body: ListView(children: [
+          infoSection,
+          buttonSection,
+          locationSection,
+        ]),
         bottomNavigationBar: MyBottomNavigationBar());
+  }
+
+  void _follow(){
+    _quest.hasFollowed = !_quest.hasFollowed;
+
   }
 
   Column _buildIconButton(IconData icon, String text, Function onPressed) {
