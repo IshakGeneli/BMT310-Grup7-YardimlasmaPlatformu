@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:my_test/takePictureScreen.dart';
 import 'questScreen.dart';
 
 void main() {
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         QuestScreen.routeName: (context) => QuestScreen(),
+        TakePictureScreen.routeName: (context) => TakePictureScreen(),
       },
     );
   }
