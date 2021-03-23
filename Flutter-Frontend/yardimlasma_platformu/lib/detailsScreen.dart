@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'myBottomNavigationBar.dart';
 
@@ -18,16 +20,20 @@ class DetailScreen extends StatefulWidget {
 
 class DetailScreenState extends State {
   final Quest _quest;
+  File _image;
+  final ImagePicker _imagePicker = ImagePicker();
+
+
   Completer<GoogleMapController> _controller = Completer();
 
   DetailScreenState(this._quest);
 
   @override
   Widget build(BuildContext context) {
-    Container locationSection = _quest.location != null
-        ? Container(
-            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: Column(
+    Container locationSection = Container(
+      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+      child: _quest.location != null
+          ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -65,9 +71,9 @@ class DetailScreenState extends State {
                   ),
                 ),
               ],
-            ),
-          )
-        : Container();
+            )
+          : null,
+    );
 
     Container buttonSection = Container(
       margin: EdgeInsets.all(20),
@@ -75,9 +81,7 @@ class DetailScreenState extends State {
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildIconButton(Icons.search, "Kanit Yukle", () {
-            Navigator.pushNamed(context, "/camera");
-          }),
+          _buildIconButton(Icons.search, "Kanit Yukle", (){_getImage();}),
           _buildIconButton(
               _quest.hasFollowed
                   ? Icons.location_on
@@ -144,9 +148,8 @@ class DetailScreenState extends State {
         bottomNavigationBar: MyBottomNavigationBar());
   }
 
-  void _follow(){
+  void _follow() {
     _quest.hasFollowed = !_quest.hasFollowed;
-
   }
 
   Column _buildIconButton(IconData icon, String text, Function onPressed) {
@@ -166,5 +169,16 @@ class DetailScreenState extends State {
         textAlign: TextAlign.center,
       ),
     ]);
+  }
+
+  _getImage() async {
+    final pickedFile = await _imagePicker.getImage(source: ImageSource.camera);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 }
