@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
+import 'package:smart_select/smart_select.dart';
 import 'quest.dart';
 import 'dart:io';
 
@@ -18,7 +19,9 @@ class QuestFormScreen extends StatefulWidget {
 class _QuestFormScreenState extends State {
   static const TextStyle _titleTextStyle =
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
-  static const TextStyle _inputTextStyle = const TextStyle(fontSize: 17);
+  static const TextStyle _inputTextStyle = const TextStyle(
+    fontSize: 17,
+  );
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -47,12 +50,14 @@ class _QuestFormScreenState extends State {
       ),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Gorev Ver"),
-      ),
-      bottomNavigationBar: MyBottomNavigationBar(),
-      body: ListView(
+    List<S2Choice<Difficulty>> difficultyLevels = [
+      S2Choice<Difficulty>(value: Difficulty.easy, title: "Kolay"),
+      S2Choice<Difficulty>(value: Difficulty.normal, title: "Normal"),
+      S2Choice<Difficulty>(value: Difficulty.hard, title: "Zor"),
+    ];
+
+    Container textSection = Container(
+      child: Column(
         children: [
           Container(
             margin: EdgeInsets.all(20),
@@ -68,6 +73,7 @@ class _QuestFormScreenState extends State {
                   autocorrect: false,
                   style: _inputTextStyle,
                   inputFormatters: [LengthLimitingTextInputFormatter(40)],
+                  decoration: InputDecoration(hintText: "Gorev Adi"),
                 ),
               ],
             ),
@@ -88,53 +94,89 @@ class _QuestFormScreenState extends State {
                   autocorrect: false,
                   style: _inputTextStyle,
                   inputFormatters: [LengthLimitingTextInputFormatter(400)],
+                  decoration: InputDecoration(hintText: "Gorev Aciklamasi"),
                 ),
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(20),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text(
-                "Zorluk",
-                style: _titleTextStyle,
-              ),
-              _createRadioButton("Kolay", Difficulty.easy),
-              _createRadioButton("Normal", Difficulty.normal),
-              _createRadioButton("Zor", Difficulty.hard),
-            ]),
-          ),
-          Container(
-            margin: EdgeInsets.all(20),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ],
+      ),
+    );
+    Container difficultyPickerSection = Container(
+      margin: EdgeInsets.all(10),
+      child: SmartSelect<Difficulty>.single(
+        title: "Zorluk Sec",
+        value: _difficulty,
+        choiceItems: difficultyLevels,
+        onChange: (state) => setState(() => _difficulty = state.value),
+        modalType: S2ModalType.bottomSheet,
+        tileBuilder: (context, state) {
+          return S2Tile.fromState(
+            state,
+            title: Text(
+              state.title,
+              style: _titleTextStyle,
+            ),
+            trailing: Icon(Icons.arrow_forward_ios),
+          );
+        },
+      ),
+    );
+    Container imageSection = Container(
+      margin: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
               Text(
                 "*Resim",
                 style: _titleTextStyle,
               ),
-              _image != null ? Image.file(_image) : Container(),
-            ]),
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: ElevatedButton(
-              onPressed: _getImage,
-              child: Text(
-                "Resim Yukle",
-                style: _inputTextStyle,
+              Container(
+                child: ElevatedButton(
+                  onPressed: _getImage,
+                  child: Text(
+                    "Resim Yukle",
+                    style: _inputTextStyle,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
+          _image != null
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.file(_image))
+              : Container(),
+        ],
+      ),
+    );
+    Container addressSection = Container(
+      child: Column(
+        children: [
           Container(
             margin: EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "*Adres",
-                  style: _titleTextStyle,
-                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "*Adres",
+                        style: _titleTextStyle,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _showGoogleMap =
+                                  _addressController.text.isNotEmpty;
+                            });
+                          },
+                          child: Text("Ara"))
+                    ]),
                 TextFormField(
                   controller: _addressController,
                   autocorrect: false,
@@ -142,41 +184,60 @@ class _QuestFormScreenState extends State {
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(200),
                   ],
-                  onChanged: (text) {
-                    setState(() {
-                      _showGoogleMap = _addressController.text.isNotEmpty;
-                    });
-                  },
+                  decoration: InputDecoration(hintText: "Adres"),
                 ),
               ],
             ),
           ),
-          _showGoogleMap
-              ? FutureBuilder<LatLng>(
-                  future: _getCoordinates(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) _coordinates = snapshot.data;
-
-                    if (_coordinates != null && _mapController != null)
-                      _mapController.moveCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(target: _coordinates, zoom: 50),
-                        ),
-                      );
-
-                    return snapshot.hasData ? map : Container();
-                  })
-              : Container(),
           Container(
-              margin: EdgeInsets.all(20),
-              child: ElevatedButton(
-                child: Text(
-                  "Olustur",
-                  style: _inputTextStyle,
-                ),
-                onPressed: _submit,
-              )),
+            child: _showGoogleMap
+                ? FutureBuilder<LatLng>(
+                    future: _getCoordinates(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) _coordinates = snapshot.data;
+
+                      if (_coordinates != null && _mapController != null)
+                        _mapController.moveCamera(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(target: _coordinates, zoom: 50),
+                          ),
+                        );
+
+                      return snapshot.hasData
+                          ? map
+                          : Text(
+                              "Adres Bulunamadi",
+                              style: TextStyle(color: Colors.red),
+                            );
+                    })
+                : null,
+          )
         ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Gorev Ver"),
+      ),
+      body: Form(
+        child: ListView(
+          children: [
+            textSection,
+            difficultyPickerSection,
+            imageSection,
+            addressSection,
+            Container(
+                margin: EdgeInsets.all(20),
+                child: ElevatedButton(
+                  child: Text(
+                    "Olustur",
+                    style: _inputTextStyle,
+                  ),
+                  onPressed: _submit,
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -187,21 +248,7 @@ class _QuestFormScreenState extends State {
     return LatLng(location.latitude, location.longitude);
   }
 
-  RadioListTile _createRadioButton(String label, Difficulty difficulty) {
-    return RadioListTile<Difficulty>(
-        title: Text(label),
-        value: difficulty,
-        groupValue: _difficulty,
-        onChanged: (Difficulty value) {
-          setState(() {
-            _difficulty = value;
-          });
-        });
-  }
-
   _getImage() async {
-    print("mete");
-
     final pickedFile = await _imagePicker.getImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {

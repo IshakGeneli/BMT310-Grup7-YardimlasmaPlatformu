@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_test/homeScreen.dart';
 import 'package:my_test/questFormScreen.dart';
-import 'package:my_test/takePictureScreen.dart';
 import 'questListScreen.dart';
 
 void main() {
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => HomeScreen(),
         QuestListScreen.routeName: (context) => QuestListScreen(),
         QuestFormScreen.routeName: (context) => QuestFormScreen(),
-        TakePictureScreen.routeName: (context) => TakePictureScreen(),
       },
     );
   }
