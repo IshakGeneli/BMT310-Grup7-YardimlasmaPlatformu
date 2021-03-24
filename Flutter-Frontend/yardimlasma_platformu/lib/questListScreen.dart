@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
-import 'detailsScreen.dart';
+import 'questDetailScreen.dart';
 import 'quest.dart';
 
 
@@ -149,7 +149,7 @@ class QuestListScreenState extends State {
             context,
             MaterialPageRoute(
                 settings: RouteSettings(name: "${QuestListScreen.routeName}/${q.title}"),
-                builder: (context) => DetailScreen(q)));
+                builder: (context) => QuestDetailScreen(q)));
       },
     );
   }
