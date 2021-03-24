@@ -33,7 +33,11 @@ dependencies:
   geocoding: ^1.0.5
   image_picker: ^0.7.3
   smart_select: ^4.3.2
+  google_mobile_ads: ^0.11.0+4
 
+
+module:
+  androidX: true
 
 dev_dependencies:
   flutter_test:

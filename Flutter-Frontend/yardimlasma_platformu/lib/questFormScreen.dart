@@ -175,7 +175,7 @@ class _QuestFormScreenState extends State {
                                   _addressController.text.isNotEmpty;
                             });
                           },
-                          child: Text("Ara"))
+                          child: Text("Ara", style: _inputTextStyle,))
                     ]),
                 TextFormField(
                   controller: _addressController,
@@ -220,6 +220,7 @@ class _QuestFormScreenState extends State {
       appBar: AppBar(
         title: const Text("Gorev Ver"),
       ),
+      bottomNavigationBar: MyBottomNavigationBar(),
       body: Form(
         child: ListView(
           children: [

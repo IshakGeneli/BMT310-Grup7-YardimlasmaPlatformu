@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'myBannerAd.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "/";
@@ -20,8 +21,8 @@ class HomeScreen extends StatelessWidget {
                   _buildButton(context, Icons.assignment, "Gorev Al", () {
                     Navigator.pushNamed(context, "/questsList");
                   }),
-                  _buildButton(
-                      context, MdiIcons.exclamationThick, "Gorev Ver", () {
+                  _buildButton(context, MdiIcons.exclamationThick, "Gorev Ver",
+                      () {
                     Navigator.pushNamed(context, "/questsForm");
                   }),
                   _buildButton(context, Icons.location_on, "Gorevlerim", null),
@@ -39,6 +40,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+            MyBannerAd(),
           ],
         ),
       ),
@@ -53,7 +55,10 @@ class HomeScreen extends StatelessWidget {
       fillColor: Theme.of(context).primaryColor,
       child: Column(
         children: [
-          Icon(icon, size: 40,),
+          Icon(
+            icon,
+            size: 40,
+          ),
           Text(
             label,
             textAlign: TextAlign.center,

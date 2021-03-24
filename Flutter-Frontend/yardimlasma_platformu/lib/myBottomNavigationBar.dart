@@ -15,7 +15,7 @@ class MyBottomNavigationBar extends StatelessWidget {
               icon: const Icon(Icons.home)),
           IconButton(
               onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/questsList'));
+                Navigator.popAndPushNamed(context, '/questsList');
               },
               icon: const Icon(Icons.assignment)),
           IconButton(onPressed: null, icon: const Icon(MdiIcons.accountCircle)),

@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:my_test/homeScreen.dart';
 import 'package:my_test/questFormScreen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'questListScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
   static const String _title = "Flutter Layout Demo";
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Load Ads
+    MobileAds.instance.initialize().then((InitializationStatus status) {
+      print('Initialization done: ${status.adapterStatuses}');
+      MobileAds.instance
+          .updateRequestConfiguration(
+            RequestConfiguration(
+                tagForChildDirectedTreatment:
+                    TagForChildDirectedTreatment.unspecified),
+          )
+          .then((value) {});
+    });
+  }
+
+  @override
+  void dispose() {
+    //_interstitialAd?.dispose();
+    //_rewardedAd?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
