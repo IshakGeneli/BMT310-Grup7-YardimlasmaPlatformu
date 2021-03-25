@@ -6,7 +6,7 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Abstract
 {
-    public interface ITaskDal : IEntityRepository<Task>
+    public interface IMissionDal : IEntityRepository<Mission>
     {
     }
 }

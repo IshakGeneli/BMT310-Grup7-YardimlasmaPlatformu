@@ -7,7 +7,7 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class EfTaskDal : EfEntityRepositoryBase<Task, xHelpContext>, ITaskDal
+    public class EfMissionDal : EfEntityRepositoryBase<Mission, xHelpContext>, IMissionDal
     {
     }
 }

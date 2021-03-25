@@ -20,7 +20,7 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<Mission> Missions { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Evidence> Evidences { get; set; }

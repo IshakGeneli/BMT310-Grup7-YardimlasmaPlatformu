@@ -5,7 +5,7 @@ using xHelp.Core.Entity;
 
 namespace xHelp.Entity.Concrete
 {
-    public class Task : IEntity
+    public class Mission : IEntity
     {
         public int Id { get; set; }
         public int OwnerUserId { get; set; }
