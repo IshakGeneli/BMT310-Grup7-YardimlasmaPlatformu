@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using xHelp.Core.Entity;
 
 namespace xHelp.Entity.Concrete
 {
-    public class Contact
+    public class Contact : IEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }
