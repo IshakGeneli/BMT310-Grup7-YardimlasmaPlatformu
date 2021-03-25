@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using xHelp.DataAccess.Mappings;
 using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
@@ -16,7 +17,9 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new TaskMap());
+            modelBuilder.ApplyConfiguration(new ContactMap());
+            modelBuilder.ApplyConfiguration(new MissionMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
             base.OnModelCreating(modelBuilder);
         }
 
