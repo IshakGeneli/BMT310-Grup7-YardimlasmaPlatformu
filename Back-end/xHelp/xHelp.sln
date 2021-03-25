@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xHelp.Business", "xHelp.Bus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xHelp.API", "xHelp.API\xHelp.API.csproj", "{1412C7EB-68B6-4F51-86CB-C72E2216E1AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xHelp.Core", "xHelp.Core\xHelp.Core.csproj", "{E306BF9D-37EA-4CD8-BAA8-FDF8B36978D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1412C7EB-68B6-4F51-86CB-C72E2216E1AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1412C7EB-68B6-4F51-86CB-C72E2216E1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1412C7EB-68B6-4F51-86CB-C72E2216E1AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E306BF9D-37EA-4CD8-BAA8-FDF8B36978D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E306BF9D-37EA-4CD8-BAA8-FDF8B36978D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E306BF9D-37EA-4CD8-BAA8-FDF8B36978D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E306BF9D-37EA-4CD8-BAA8-FDF8B36978D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
