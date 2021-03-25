@@ -9,10 +9,9 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
     public class xHelpContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public xHelpContext(DbContextOptions<xHelpContext> dbContextOptions) : base(dbContextOptions)
         {
-            optionsBuilder.UseSqlServer("");
-            base.OnConfiguring(optionsBuilder);
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
