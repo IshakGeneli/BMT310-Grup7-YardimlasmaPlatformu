@@ -7,7 +7,7 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class EfEvidenceDal : EfEntityRepositoryBase<Evidence, xHelpContext>, IEvidenceDal
+    public class EfEvidenceDal : EfEntityRepositoryBase<Evidence, xHelpDbContext>, IEvidenceDal
     {
     }
 }

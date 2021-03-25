@@ -7,7 +7,7 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class EfContactDal : EfEntityRepositoryBase<Contact, xHelpContext>, IContactDal
+    public class EfContactDal : EfEntityRepositoryBase<Contact, xHelpDbContext>, IContactDal
     {
     }
 }

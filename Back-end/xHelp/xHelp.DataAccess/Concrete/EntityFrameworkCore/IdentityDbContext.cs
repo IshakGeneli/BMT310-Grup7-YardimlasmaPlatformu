@@ -7,9 +7,9 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class IdentityContext : IdentityDbContext<User, UserRole, string>
+    public class IdentityDbContext : IdentityDbContext<User, UserRole, string>
     {
-        public IdentityContext(DbContextOptions<IdentityContext> dbContextOptions) : base(dbContextOptions)
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }

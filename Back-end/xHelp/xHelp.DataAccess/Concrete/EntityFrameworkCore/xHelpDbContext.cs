@@ -7,11 +7,11 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class xHelpContext : DbContext
+    public class xHelpDbContext : DbContext
     {
-        public xHelpContext(DbContextOptions<xHelpContext> dbContextOptions) : base(dbContextOptions)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=xHelp; Trusted_Connection=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

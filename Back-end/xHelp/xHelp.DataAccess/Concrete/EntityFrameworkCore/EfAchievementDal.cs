@@ -7,7 +7,7 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class EfAchievementDal : EfEntityRepositoryBase<Achievement, xHelpContext>, IAchievementDal
+    public class EfAchievementDal : EfEntityRepositoryBase<Achievement, xHelpDbContext>, IAchievementDal
     {
     }
 }
