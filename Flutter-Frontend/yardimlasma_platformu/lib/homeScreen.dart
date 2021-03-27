@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'myBannerAd.dart';
+import 'ads/myBannerAd.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "/";
@@ -9,38 +9,47 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.all(40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildButton(context, Icons.assignment, "Gorev Al", () {
-                    Navigator.pushNamed(context, "/questsList");
-                  }),
-                  _buildButton(context, MdiIcons.exclamationThick, "Gorev Ver",
-                      () {
-                    Navigator.pushNamed(context, "/questsForm");
-                  }),
-                  _buildButton(context, Icons.location_on, "Gorevlerim", null),
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildButton(context, Icons.assignment, "Gorev Al", () {
+                        Navigator.pushNamed(context, "/questsList");
+                      }),
+                      _buildButton(
+                          context, MdiIcons.exclamationThick, "Gorev Ver", () {
+                        Navigator.pushNamed(context, "/questsForm");
+                      }),
+                      _buildButton(context, Icons.location_on, "Gorevlerim",
+                          () {
+                        Navigator.pushNamed(context, "/questEvaluation");
+                      }),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildButton(
+                          context, MdiIcons.accountCircle, "Profil", null),
+                      _buildButton(context, Icons.message, "Mesajlar", null),
+                      _buildButton(context, Icons.settings, "Ayarlar", null),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.all(40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildButton(context, MdiIcons.accountCircle, "Profil", null),
-                  _buildButton(context, Icons.message, "Mesajlar", null),
-                  _buildButton(context, Icons.settings, "Ayarlar", null),
-                ],
-              ),
-            ),
-            MyBannerAd(),
+            Align(
+                alignment: FractionalOffset.bottomCenter, child: MyBannerAd()),
           ],
         ),
       ),
@@ -59,13 +68,17 @@ class HomeScreen extends StatelessWidget {
             icon,
             size: 40,
           ),
-          Text(
-            label,
-            textAlign: TextAlign.center,
+          SizedBox(
+            width: 70,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+            ),
           ),
         ],
       ),
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 20),
+      padding: EdgeInsets.all(15),
       shape: CircleBorder(),
     );
   }
