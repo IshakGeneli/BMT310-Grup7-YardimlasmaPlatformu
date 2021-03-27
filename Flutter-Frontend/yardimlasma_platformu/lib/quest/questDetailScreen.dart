@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-import 'myBottomNavigationBar.dart';
+import '../myBottomNavigationBar.dart';
 
+import 'ImageScreen.dart';
 import 'quest.dart';
 
 class QuestDetailScreen extends StatefulWidget {
@@ -16,24 +17,39 @@ class QuestDetailScreen extends StatefulWidget {
   QuestDetailScreen(this._quest);
 
   @override
-  State createState() => QuestDetailScreenState(_quest);
+  State createState() => _QuestDetailScreenState(_quest);
 }
 
-class QuestDetailScreenState extends State {
+class _QuestDetailScreenState extends State {
   final Quest _quest;
   File _image;
   final ImagePicker _imagePicker = ImagePicker();
 
-
   Completer<GoogleMapController> _controller = Completer();
 
-  QuestDetailScreenState(this._quest);
+  _QuestDetailScreenState(this._quest);
 
   @override
   Widget build(BuildContext context) {
     Container infoSection = Container(
       child: Column(children: [
-        _quest.getImage(),
+        GestureDetector(
+          child: Hero(
+            child: Image.network(_quest.imageLink),
+            tag: "questTag${_quest.title}",
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) {
+                  return ImageScreen(
+                      Image.network(_quest.imageLink), "questTag${_quest.title}");
+                },
+              ),
+            );
+          },
+        ),
         Container(
           margin: EdgeInsets.all(20),
           child: Text(
@@ -72,68 +88,69 @@ class QuestDetailScreenState extends State {
       margin: EdgeInsets.all(20),
       child: Expanded(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildIconButton(Icons.search, "Kanit Yukle", (){_getImage();}),
-              _buildIconButton(
-                  _quest.hasFollowed
-                      ? Icons.location_on
-                      : Icons.location_on_outlined,
-                  _quest.hasFollowed ? "Takip Ediliyor" : "Takip Et", () {
-                setState(() {
-                  _follow();
-                });
-              }),
-              _buildIconButton(Icons.message, "Iletisime Gec", null),
-            ],
-          )),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildIconButton(Icons.search, "Kanit Yukle", () {
+            _getImage();
+          }),
+          _buildIconButton(
+              _quest.hasFollowed
+                  ? Icons.location_on
+                  : Icons.location_on_outlined,
+              _quest.hasFollowed ? "Takip Ediliyor" : "Takip Et", () {
+            setState(() {
+              _follow();
+            });
+          }),
+          _buildIconButton(Icons.message, "Iletisime Gec", null),
+        ],
+      )),
     );
     Container locationSection = Container(
       margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: _quest.location != null
           ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.fromLTRB(5, 0, 5, 20),
-            child: FutureBuilder<String>(
-                future: _quest.requestAdress(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError)
-                    return Text("Error: " + snapshot.error);
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(5, 0, 5, 20),
+                  child: FutureBuilder<String>(
+                      future: _quest.requestAdress(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError)
+                          return Text("Error: " + snapshot.error);
 
-                  return snapshot.hasData
-                      ? Text(
-                    "Konum: ${snapshot.data}",
-                    style: TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  )
-                      : Container();
-                }),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3,
-            child: GoogleMap(
-              mapType: MapType.hybrid,
-              initialCameraPosition: CameraPosition(
-                target: _quest.location,
-                zoom: 14.4746,
-              ),
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              markers: Set.from([
-                Marker(markerId: MarkerId(""), position: _quest.location)
-              ]),
-            ),
-          ),
-        ],
-      )
+                        return snapshot.hasData
+                            ? Text(
+                                "Konum: ${snapshot.data}",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            : Container();
+                      }),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: GoogleMap(
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: CameraPosition(
+                      target: _quest.location,
+                      zoom: 14.4746,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    markers: Set.from([
+                      Marker(markerId: MarkerId(""), position: _quest.location)
+                    ]),
+                  ),
+                ),
+              ],
+            )
           : null,
     );
 
-    
     return Scaffold(
         appBar: AppBar(
           title: Text(
