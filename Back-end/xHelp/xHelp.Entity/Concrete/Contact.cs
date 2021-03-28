@@ -12,7 +12,7 @@ namespace xHelp.Entity.Concrete
         public string Address { get; set; }
         public string Mail { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
     }
 }

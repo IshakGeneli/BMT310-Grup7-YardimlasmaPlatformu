@@ -20,7 +20,7 @@ namespace xHelp.Entity.Concrete
         public string Longitude { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public int OwnerUserId { get; set; }
+        public string OwnerUserId { get; set; }
         public User User { get; set; }
         public ICollection<Evidence> Evidences { get; set; }
     }
