@@ -46,6 +46,7 @@ namespace xHelp.API
             services.AddSingleton<IAchievementService, AchievementManager>();
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
+            services.AddTransient<IUserService, UserManager>();
 
             // identity
             services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
