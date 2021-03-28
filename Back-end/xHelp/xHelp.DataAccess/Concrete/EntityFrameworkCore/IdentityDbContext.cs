@@ -9,7 +9,7 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
     public class IdentityDbContext : IdentityDbContext<User, UserRole, string>
     {
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> dbContextOptions) : base(dbContextOptions)
+        public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
         {
 
         }
