@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,17 +16,18 @@ using xHelp.Business.Abstract;
 using xHelp.Business.Concrete;
 using xHelp.DataAccess.Abstract;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
+using xHelp.Entity.Concrete;
 
 namespace xHelp.API
 {
     public class Startup
     {
+        private IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,6 +45,10 @@ namespace xHelp.API
             services.AddSingleton<IAchievementService, AchievementManager>();
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
+
+            // identity
+            services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
+            services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<IdentityDbContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
