@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using xHelp.Business.Abstract;
+using xHelp.Business.Concrete;
+using xHelp.DataAccess.Abstract;
+using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 
 namespace xHelp.API
 {
@@ -26,6 +30,18 @@ namespace xHelp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // data access layer
+            services.AddSingleton<IMissionDal, EfMissionDal>();
+            services.AddSingleton<IAchievementDal, EfAchievementDal>();
+            services.AddSingleton<IContactDal, EfContactDal>();
+            services.AddSingleton<IEvidenceDal, EfEvidenceDal>();
+
+            // business layer
+            services.AddSingleton<IMissionService, MissionManager>();
+            services.AddSingleton<IAchievementService, AchievementManager>();
+            services.AddSingleton<IContactService, ContactManager>();
+            services.AddSingleton<IEvidenceService, EvidenceManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
