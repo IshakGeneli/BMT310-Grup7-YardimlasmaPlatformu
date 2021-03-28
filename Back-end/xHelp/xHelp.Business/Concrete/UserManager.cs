@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Core.Utilities.Results.Abstract;
+using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.Entity.Concrete;
 using xHelp.Entity.DTOs;
 
@@ -24,7 +27,7 @@ namespace xHelp.Business.Concrete
             _signInManager = signInManager;
         }
 
-        public async Task Register(UserRegisterDTO userRegisterDTO)
+        public async Task<IResult> Register(UserRegisterDTO userRegisterDTO)
         {
 
             User newUser = new User
@@ -44,9 +47,19 @@ namespace xHelp.Business.Concrete
                         Name = "Admin"
                     };
                     IdentityResult roleResult = await _roleManager.CreateAsync(newRole);
+
+                    if (!roleResult.Succeeded)
+                    {
+                        return new ErrorResult(HttpStatusCode.InternalServerError);
+                    }
                 }
 
                 _userManager.AddToRoleAsync(newUser, "Admin").Wait();
+                return new SuccessfulResult(HttpStatusCode.OK);
+            }
+            else
+            {
+                return new ErrorResult(HttpStatusCode.Conflict);
             }
         }
     }
