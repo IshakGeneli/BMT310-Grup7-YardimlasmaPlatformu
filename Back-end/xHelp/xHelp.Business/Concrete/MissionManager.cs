@@ -43,9 +43,10 @@ namespace xHelp.Business.Concrete
             return new SuccessfulDataResult<ICollection<Mission>>(missions, HttpStatusCode.OK);
         }
 
-        public async Task<Mission> GetMissionByIdAsync(int id)
+        public async Task<IDataResult<Mission>> GetMissionByIdAsync(int id)
         {
-            return await _missionDal.GetAsync(m => m.Id == id);
+            var mission = await _missionDal.GetAsync(m => m.Id == id);
+            return new SuccessfulDataResult<Mission>(mission,HttpStatusCode.OK);
         }
 
         public async Task UpdateMissionAsync(Mission mission)

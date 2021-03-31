@@ -35,5 +35,12 @@ namespace xHelp.API.Controllers
             var result = await _missionService.AddMissionAsync(createMissionDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
+
+        [HttpGet("getMissionById/{id}")]
+        public async Task<IActionResult> GetMissionById(int id)
+        {
+            var result = await _missionService.GetMissionByIdAsync(id);
+            return StatusCode(result.HttpStatusCode, result.Data);
+        }
     }
 }

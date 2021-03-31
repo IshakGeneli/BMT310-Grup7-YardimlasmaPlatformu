@@ -11,7 +11,7 @@ namespace xHelp.Business.Abstract
     public interface IMissionService
     {
         Task<IDataResult<ICollection<Mission>>> GetAllAsync();
-        Task<Mission> GetMissionByIdAsync(int id);
+        Task<IDataResult<Mission>> GetMissionByIdAsync(int id);
         Task<IDataResult<Mission>> AddMissionAsync(CreateMissionDTO createMissionDTO);
         Task UpdateMissionAsync(Mission mission);
         Task DeleteMissionAsync(int id);
