@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using xHelp.Business.Abstract;
 
 namespace xHelp.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
@@ -20,7 +21,6 @@ namespace xHelp.API.Controllers
             _missionService = missionService;
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("getMissions")]
         public async Task<IActionResult> GetMissions()
         {
