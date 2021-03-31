@@ -23,5 +23,12 @@ namespace xHelp.API.Controllers
             var result = await _userService.Register(userRegisterDTO);
             return StatusCode(result.HttpStatusCode);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO userLoginDTO)
+        {
+            var result = await _userService.Login(userLoginDTO);
+            return StatusCode(result.HttpStatusCode);
+        }
     }
 }

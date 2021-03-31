@@ -11,5 +11,6 @@ namespace xHelp.Business.Abstract
     public interface IUserService
     {
         Task<IResult> Register(UserRegisterDTO userRegisterDTO);
+        Task<IResult> Login(UserLoginDTO userLoginDTO);
     }
 }
