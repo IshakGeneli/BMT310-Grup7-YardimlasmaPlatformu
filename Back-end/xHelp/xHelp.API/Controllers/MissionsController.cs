@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
@@ -26,6 +27,13 @@ namespace xHelp.API.Controllers
         {
             var result = await _missionService.GetAllAsync();
             return StatusCode(result.HttpStatusCode,result.Data);
+        }
+
+        [HttpPost("createMission")]
+        public async Task<IActionResult> CreateMission([FromBody] CreateMissionDTO createMissionDTO)
+        {
+            var result = await _missionService.AddMissionAsync(createMissionDTO);
+            return StatusCode(result.HttpStatusCode, result.Data);
         }
     }
 }

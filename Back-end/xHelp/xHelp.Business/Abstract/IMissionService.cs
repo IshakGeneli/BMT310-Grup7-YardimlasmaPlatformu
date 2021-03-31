@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using xHelp.Core.Utilities.Results.Abstract;
 using xHelp.Entity.Concrete;
+using xHelp.Entity.DTOs;
 
 namespace xHelp.Business.Abstract
 {
@@ -11,7 +12,7 @@ namespace xHelp.Business.Abstract
     {
         Task<IDataResult<ICollection<Mission>>> GetAllAsync();
         Task<Mission> GetMissionByIdAsync(int id);
-        Task<Mission> AddMissionAsync(Mission mission);
+        Task<IDataResult<Mission>> AddMissionAsync(CreateMissionDTO createMissionDTO);
         Task UpdateMissionAsync(Mission mission);
         Task DeleteMissionAsync(int id);
     }

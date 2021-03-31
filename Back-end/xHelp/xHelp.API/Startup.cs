@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
 using xHelp.Business.Concrete;
+using xHelp.Business.Utilities;
 using xHelp.DataAccess.Abstract;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 using xHelp.Entity.Concrete;
@@ -51,6 +53,14 @@ namespace xHelp.API
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
             services.AddScoped<IUserService, UserManager>();
+
+            // mapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             // identity
             services.AddDbContext<xHelpDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
