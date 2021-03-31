@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace xHelp.DataAccess.Migrations.IdentityDb
+namespace xHelp.DataAccess.Migrations
 {
     public partial class initial : Migration
     {
@@ -68,7 +68,7 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Achievement",
+                name: "Achievements",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -78,13 +78,13 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Achievement", x => x.Id);
+                    table.PrimaryKey("PK_Achievements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Achievement_AspNetUsers_UserId",
+                        name: "FK_Achievements_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,29 +173,29 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contact",
+                name: "Contacts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telephone = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mail = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contact", x => x.Id);
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Contact_AspNetUsers_UserId",
+                        name: "FK_Contacts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mission",
+                name: "Missions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -206,22 +206,21 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                     Latitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Longitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OwnerUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OwnerUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mission", x => x.Id);
+                    table.PrimaryKey("PK_Missions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mission_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Missions_AspNetUsers_OwnerUserId",
+                        column: x => x.OwnerUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Evidence",
+                name: "Evidences",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -231,18 +230,18 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Evidence", x => x.Id);
+                    table.PrimaryKey("PK_Evidences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Evidence_Mission_MissionId",
+                        name: "FK_Evidences_Missions_MissionId",
                         column: x => x.MissionId,
-                        principalTable: "Mission",
+                        principalTable: "Missions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Achievement_UserId",
-                table: "Achievement",
+                name: "IX_Achievements_UserId",
+                table: "Achievements",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -285,27 +284,41 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contact_UserId",
-                table: "Contact",
+                name: "IX_Contacts_Mail",
+                table: "Contacts",
+                column: "Mail",
+                unique: true,
+                filter: "[Mail] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contacts_Telephone",
+                table: "Contacts",
+                column: "Telephone",
+                unique: true,
+                filter: "[Telephone] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contacts_UserId",
+                table: "Contacts",
                 column: "UserId",
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Evidence_MissionId",
-                table: "Evidence",
+                name: "IX_Evidences_MissionId",
+                table: "Evidences",
                 column: "MissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mission_UserId",
-                table: "Mission",
-                column: "UserId");
+                name: "IX_Missions_OwnerUserId",
+                table: "Missions",
+                column: "OwnerUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Achievement");
+                name: "Achievements");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -323,16 +336,16 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Contact");
+                name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Evidence");
+                name: "Evidences");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Mission");
+                name: "Missions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

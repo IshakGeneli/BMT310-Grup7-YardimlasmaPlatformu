@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 
-namespace xHelp.DataAccess.Migrations.IdentityDb
+namespace xHelp.DataAccess.Migrations
 {
-    [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(xHelpDbContext))]
+    [Migration("20210328185622_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Achievement");
+                    b.ToTable("Achievements");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.Contact", b =>
@@ -154,21 +156,29 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Telephone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Mail")
+                        .IsUnique()
+                        .HasFilter("[Mail] IS NOT NULL");
+
+                    b.HasIndex("Telephone")
+                        .IsUnique()
+                        .HasFilter("[Telephone] IS NOT NULL");
+
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Contact");
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.Evidence", b =>
@@ -188,7 +198,7 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
 
                     b.HasIndex("MissionId");
 
-                    b.ToTable("Evidence");
+                    b.ToTable("Evidences");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.Mission", b =>
@@ -214,19 +224,16 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerUserId");
 
-                    b.ToTable("Mission");
+                    b.ToTable("Missions");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.User", b =>
@@ -376,7 +383,8 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 {
                     b.HasOne("xHelp.Entity.Concrete.User", "User")
                         .WithMany("Achievements")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -385,7 +393,8 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 {
                     b.HasOne("xHelp.Entity.Concrete.User", "User")
                         .WithOne("Contact")
-                        .HasForeignKey("xHelp.Entity.Concrete.Contact", "UserId");
+                        .HasForeignKey("xHelp.Entity.Concrete.Contact", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -405,7 +414,8 @@ namespace xHelp.DataAccess.Migrations.IdentityDb
                 {
                     b.HasOne("xHelp.Entity.Concrete.User", "User")
                         .WithMany("Missions")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });

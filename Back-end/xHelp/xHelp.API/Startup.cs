@@ -46,11 +46,11 @@ namespace xHelp.API
             services.AddSingleton<IAchievementService, AchievementManager>();
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
-            services.AddTransient<IUserService, UserManager>();
+            services.AddScoped<IUserService, UserManager>();
 
             // identity
-            services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
-            services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<IdentityDbContext>().AddDefaultTokenProviders();
+            services.AddDbContext<xHelpDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
+            services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<xHelpDbContext>().AddDefaultTokenProviders();
 
             // swagger
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "xHelp API", Version = "v1" }); });

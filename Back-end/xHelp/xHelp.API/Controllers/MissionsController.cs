@@ -3,14 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using xHelp.Business.Abstract;
 
 namespace xHelp.API.Controllers
 {
-    public class MissionsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MissionsController : ControllerBase
     {
-        public IActionResult Index()
+        private IMissionService _missionService;
+
+        public MissionsController(IMissionService missionService)
         {
-            return View();
+            _missionService = missionService;
+        }
+
+        [HttpGet("getMissions")]
+        public async Task<IActionResult> GetMissions()
+        {
+            return Ok(await _missionService.GetAllAsync());
         }
     }
 }
