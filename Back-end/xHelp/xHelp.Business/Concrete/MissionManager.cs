@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Core.Utilities.Results.Abstract;
+using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
 using xHelp.Entity.Concrete;
 
@@ -27,9 +30,11 @@ namespace xHelp.Business.Concrete
             await _missionDal.DeleteAsync(new Mission { Id = id });
         }
 
-        public async Task<ICollection<Mission>> GetAllAsync()
+        public async Task<IDataResult<ICollection<Mission>>> GetAllAsync()
         {
-            return await _missionDal.GetListAsync();
+            var missions = await _missionDal.GetListAsync();
+
+            return new SuccessfulDataResult<ICollection<Mission>>(missions, HttpStatusCode.OK);
         }
 
         public async Task<Mission> GetMissionByIdAsync(int id)

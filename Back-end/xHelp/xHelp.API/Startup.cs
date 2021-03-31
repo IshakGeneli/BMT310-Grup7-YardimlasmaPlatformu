@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ namespace xHelp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddMvc(options => { options.EnableEndpointRouting = false; });
 
             // data access layer
             services.AddSingleton<IMissionDal, EfMissionDal>();
@@ -51,6 +52,17 @@ namespace xHelp.API
             // identity
             services.AddDbContext<xHelpDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
             services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<xHelpDbContext>().AddDefaultTokenProviders();
+
+            // redirect identity authorize is not successful
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.Headers["Location"] = context.RedirectUri;
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
 
             // swagger
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "xHelp API", Version = "v1" }); });
@@ -82,12 +94,14 @@ namespace xHelp.API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvc(ConfigureRoutes);
+        }
+
+        public void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapRoute("Default", "{controller=Product}/{action=Index}");
         }
     }
 }
