@@ -8,7 +8,7 @@ using xHelp.Business.Abstract;
 
 namespace xHelp.API.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
