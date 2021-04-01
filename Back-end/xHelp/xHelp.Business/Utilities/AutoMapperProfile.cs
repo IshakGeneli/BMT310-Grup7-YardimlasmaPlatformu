@@ -14,6 +14,8 @@ namespace xHelp.Business.Utilities
         {
             CreateMap<CreateMissionDTO, Mission>().ReverseMap();
             CreateMap<CreateEvidenceDTO, Evidence>().ReverseMap();
+            CreateMap<UpdateEvidenceDTO, Evidence>().ReverseMap();
+            CreateMap<UpdateMissionDTO, Mission>().ReverseMap();
         }
     }
 }

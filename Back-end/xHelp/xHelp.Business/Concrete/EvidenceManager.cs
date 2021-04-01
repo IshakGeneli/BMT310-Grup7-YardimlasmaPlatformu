@@ -46,5 +46,10 @@ namespace xHelp.Business.Concrete
         {
             await _evidenceDal.UpdateAsync(evidence);
         }
+
+        public async Task UpdateEvidencesAsync(ICollection<Evidence> evidences)
+        {
+            await _evidenceDal.UpdateEvidencesAsync(evidences);
+        }
     }
 }

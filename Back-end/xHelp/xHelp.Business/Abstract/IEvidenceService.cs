@@ -13,6 +13,7 @@ namespace xHelp.Business.Abstract
         Task<Evidence> AddEvidenceAsync(Evidence evidence);
         Task AddEvidencesAsync(ICollection<Evidence> evidences);
         Task UpdateEvidenceAsync(Evidence evidence);
+        Task UpdateEvidencesAsync(ICollection<Evidence> evidences);
         Task DeleteEvidenceAsync(int id);
     }
 }

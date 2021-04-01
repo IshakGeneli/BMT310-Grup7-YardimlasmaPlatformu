@@ -19,5 +19,14 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task UpdateEvidencesAsync(ICollection<Evidence> evidences)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                context.UpdateRange(evidences);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

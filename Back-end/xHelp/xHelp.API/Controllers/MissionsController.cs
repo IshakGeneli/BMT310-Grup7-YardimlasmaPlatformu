@@ -52,9 +52,9 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPut("updateMission")]
-        public async Task<IActionResult> UpdateMission([FromBody] Mission mission)
+        public async Task<IActionResult> UpdateMission([FromBody] UpdateMissionDTO updateMissionDTO)
         {
-            var result = await _missionService.UpdateMissionAsync(mission);
+            var result = await _missionService.UpdateMissionAsync(updateMissionDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
     }

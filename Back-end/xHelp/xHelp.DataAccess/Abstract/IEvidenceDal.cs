@@ -10,5 +10,6 @@ namespace xHelp.DataAccess.Abstract
     public interface IEvidenceDal : IEntityRepository<Evidence>
     {
         Task AddEvidencesAsync(ICollection<Evidence> evidences);
+        Task UpdateEvidencesAsync(ICollection<Evidence> evidences);
     }
 }

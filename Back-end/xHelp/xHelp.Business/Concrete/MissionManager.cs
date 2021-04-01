@@ -76,9 +76,14 @@ namespace xHelp.Business.Concrete
             return new SuccessfulDataResult<Mission>(mission, HttpStatusCode.OK);
         }
 
-        public async Task<IDataResult<Mission>> UpdateMissionAsync(Mission mission)
+        public async Task<IDataResult<Mission>> UpdateMissionAsync(UpdateMissionDTO updateMissionDTO)
         {
+            var mission = _mapper.Map<Mission>(updateMissionDTO);
+            var evidences = _mapper.Map<ICollection<Evidence>>(updateMissionDTO.UpdateEvidenceDTOs);
+
             var addedNewMission = await _missionDal.UpdateAsync(mission);
+            await _evidenceService.UpdateEvidencesAsync(evidences);
+
             return new SuccessfulDataResult<Mission>(addedNewMission, HttpStatusCode.Created);
         }
     }
