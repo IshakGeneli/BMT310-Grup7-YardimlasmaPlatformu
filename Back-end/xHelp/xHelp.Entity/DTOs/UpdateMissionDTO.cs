@@ -5,8 +5,9 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.Entity.DTOs
 {
-    public class CreateMissionDTO
+    public class UpdateMissionDTO
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string Difficulty { get; set; }
@@ -15,5 +16,6 @@ namespace xHelp.Entity.DTOs
         public DateTime CreatedDate { get; set; }
 
         public string OwnerUserId { get; set; }
+        public ICollection<UpdateEvidenceDTO> UpdateEvidenceDTOs { get; set; }
     }
 }

@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Entity.Concrete;
 using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
@@ -22,10 +23,10 @@ namespace xHelp.API.Controllers
             _missionService = missionService;
         }
 
-        [HttpGet("getMissions")]
-        public async Task<IActionResult> GetMissions()
+        [HttpGet("getAllWithEvidences")]
+        public async Task<IActionResult> GetMissionsWithEvidences()
         {
-            var result = await _missionService.GetAllAsync();
+            var result = await _missionService.GetAllWithEvidencesAsync();
             return StatusCode(result.HttpStatusCode,result.Data);
         }
 
@@ -40,6 +41,20 @@ namespace xHelp.API.Controllers
         public async Task<IActionResult> GetMissionById(int id)
         {
             var result = await _missionService.GetMissionByIdAsync(id);
+            return StatusCode(result.HttpStatusCode, result.Data);
+        }
+
+        [HttpPost("createEvidencesOnMission")]
+        public async Task<IActionResult> CreateEvidenceOnMission([FromBody] CreateEvidenceListDTO createEvidenceListDTO)
+        {
+            await _missionService.CreateEvidencesOnMission(createEvidenceListDTO);
+            return StatusCode(200);
+        }
+
+        [HttpPut("updateMission")]
+        public async Task<IActionResult> UpdateMission([FromBody] Mission mission)
+        {
+            var result = await _missionService.UpdateMissionAsync(mission);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
     }

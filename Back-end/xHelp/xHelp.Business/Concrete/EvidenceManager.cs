@@ -22,6 +22,11 @@ namespace xHelp.Business.Concrete
             return await _evidenceDal.AddAsync(evidence);
         }
 
+        public async Task AddEvidencesAsync(ICollection<Evidence> evidences)
+        {
+            await _evidenceDal.AddEvidencesAsync(evidences);
+        }
+
         public async Task DeleteEvidenceAsync(int id)
         {
             await _evidenceDal.DeleteAsync(new Evidence { Id = id });
