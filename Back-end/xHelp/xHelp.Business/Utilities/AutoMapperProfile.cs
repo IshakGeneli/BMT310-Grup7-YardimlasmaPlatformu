@@ -15,6 +15,12 @@ namespace xHelp.Business.Utilities
             CreateMap<CreateMissionDTO, Mission>().ReverseMap();
             CreateMap<CreateEvidenceDTO, Evidence>().ReverseMap();
             CreateMap<UpdateEvidenceDTO, Evidence>().ReverseMap();
+            CreateMap<UpdateMissionWithEvidencesDTO, Mission>()
+                .ForMember(dest => dest.Evidences, opt =>
+                {
+                    opt.MapFrom(src => src.UpdateEvidenceDTOs);
+                })
+                .ReverseMap();
             CreateMap<UpdateMissionDTO, Mission>().ReverseMap();
         }
     }

@@ -44,6 +44,13 @@ namespace xHelp.API.Controllers
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 
+        [HttpGet("getMissionByIdWtihEvidences/{id}")]
+        public async Task<IActionResult> GetMissionByIdWtihEvidences(int id)
+        {
+            var result = await _missionService.GetMissionByIdWithEvidencesAsync(id);
+            return StatusCode(result.HttpStatusCode, result.Data);
+        }
+
         [HttpPost("createEvidencesOnMission")]
         public async Task<IActionResult> CreateEvidenceOnMission([FromBody] CreateEvidenceListDTO createEvidenceListDTO)
         {
@@ -51,11 +58,25 @@ namespace xHelp.API.Controllers
             return StatusCode(200);
         }
 
+        [HttpPut("updateMissionWithEvidences")]
+        public async Task<IActionResult> UpdateMissionWithEvidences([FromBody] UpdateMissionWithEvidencesDTO updateMissionWithEvidencesDTO)
+        {
+            var result = await _missionService.UpdateMissionWithEvidencesAsync(updateMissionWithEvidencesDTO);
+            return StatusCode(result.HttpStatusCode, result.Data);
+        }
+
         [HttpPut("updateMission")]
         public async Task<IActionResult> UpdateMission([FromBody] UpdateMissionDTO updateMissionDTO)
         {
             var result = await _missionService.UpdateMissionAsync(updateMissionDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
+        }
+
+        [HttpDelete("deleteMission/{id}")]
+        public async Task<IActionResult> DeleteMission(int id)
+        {
+            var result = await _missionService.DeleteMissionAsync(id);
+            return StatusCode(result.HttpStatusCode);
         }
     }
 }

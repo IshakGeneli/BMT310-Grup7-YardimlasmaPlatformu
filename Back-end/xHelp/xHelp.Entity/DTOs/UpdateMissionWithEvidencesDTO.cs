@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using xHelp.Entity.Concrete;
 
 namespace xHelp.Entity.DTOs
 {
-    public class UpdateMissionDTO
+    public class UpdateMissionWithEvidencesDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -15,5 +16,6 @@ namespace xHelp.Entity.DTOs
         public DateTime CreatedDate { get; set; }
 
         public string OwnerUserId { get; set; }
+        public ICollection<UpdateEvidenceDTO> UpdateEvidenceDTOs { get; set; }
     }
 }
