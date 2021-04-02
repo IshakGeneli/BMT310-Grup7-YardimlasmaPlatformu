@@ -9,6 +9,8 @@ using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AuthController : Controller
     {
         private IUserService _userService;

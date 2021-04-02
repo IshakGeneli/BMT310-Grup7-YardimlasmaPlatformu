@@ -18,7 +18,7 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=xHelp; Trusted_Connection=true");
+            optionsBuilder.UseSqlServer("");
         }
         public xHelpDbContext()
         {
