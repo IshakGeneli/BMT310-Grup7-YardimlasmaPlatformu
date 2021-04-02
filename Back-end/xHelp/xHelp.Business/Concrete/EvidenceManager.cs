@@ -1,25 +1,35 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Core.Utilities.Results.Abstract;
+using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
 using xHelp.Entity.Concrete;
+using xHelp.Entity.DTOs;
 
 namespace xHelp.Business.Concrete
 {
     public class EvidenceManager : IEvidenceService
     {
         private readonly IEvidenceDal _evidenceDal;
+        private readonly IMapper _mapper;
 
-        public EvidenceManager(IEvidenceDal evidenceDal)
+        public EvidenceManager(IEvidenceDal evidenceDal, IMapper mapper)
         {
             _evidenceDal = evidenceDal;
+            _mapper = mapper;
         }
 
-        public async Task<Evidence> AddEvidenceAsync(Evidence evidence)
+        public async Task<IDataResult<Evidence>> AddEvidenceAsync(CreateEvidenceDTO createEvidenceDTO)
         {
-            return await _evidenceDal.AddAsync(evidence);
+            var evidence = _mapper.Map<Evidence>(createEvidenceDTO);
+            var newEvidence = await _evidenceDal.AddAsync(evidence);
+
+            return new SuccessfulDataResult<Evidence>(newEvidence, HttpStatusCode.OK);
         }
 
         public async Task AddEvidencesAsync(ICollection<Evidence> evidences)
@@ -27,9 +37,11 @@ namespace xHelp.Business.Concrete
             await _evidenceDal.AddEvidencesAsync(evidences);
         }
 
-        public async Task DeleteEvidenceAsync(int id)
+        public async Task<IResult> DeleteEvidenceAsync(int id)
         {
             await _evidenceDal.DeleteAsync(new Evidence { Id = id });
+
+            return new SuccessfulResult(HttpStatusCode.OK);
         }
 
         public async Task<ICollection<Evidence>> GetAllAsync()
@@ -37,14 +49,26 @@ namespace xHelp.Business.Concrete
             return await _evidenceDal.GetListAsync();
         }
 
-        public async Task<Evidence> GetEvidenceByIdAsync(int id)
+        public async Task<IDataResult<ICollection<Evidence>>> GetAllByMissionIdAsync(int missionId)
         {
-            return await _evidenceDal.GetAsync(m => m.Id == id);
+            var evidences = await _evidenceDal.GetListAsync(e => e.MissionId == missionId);
+
+            return new SuccessfulDataResult<ICollection<Evidence>>(evidences, HttpStatusCode.OK);
         }
 
-        public async Task UpdateEvidenceAsync(Evidence evidence)
+        public async Task<IDataResult<Evidence>> GetEvidenceByIdAsync(int id)
         {
-            await _evidenceDal.UpdateAsync(evidence);
+            var evidence = await _evidenceDal.GetAsync(e => e.Id == id);
+
+            return new SuccessfulDataResult<Evidence>(evidence, HttpStatusCode.OK);
+        }
+
+        public async Task<IDataResult<Evidence>> UpdateEvidenceAsync(UpdateEvidenceDTO updateEvidenceDTO)
+        {
+            var evidence = _mapper.Map<Evidence>(updateEvidenceDTO);
+            var newEvidence = await _evidenceDal.UpdateAsync(evidence);
+
+            return new SuccessfulDataResult<Evidence>(evidence, HttpStatusCode.OK);
         }
 
         public async Task UpdateEvidencesAsync(ICollection<Evidence> evidences)
