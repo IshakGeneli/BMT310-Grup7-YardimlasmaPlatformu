@@ -1,30 +1,42 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Core.Utilities.Results.Abstract;
+using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
 using xHelp.Entity.Concrete;
+using xHelp.Entity.DTOs;
 
 namespace xHelp.Business.Concrete
 {
     public class AchievementManager : IAchievementService
     {
         private readonly IAchievementDal _achievementDal;
+        private readonly IMapper _mapper;
 
-        public AchievementManager(IAchievementDal achievementDal)
+        public AchievementManager(IAchievementDal achievementDal, IMapper mapper)
         {
             _achievementDal = achievementDal;
+            _mapper = mapper;
         }
 
-        public async Task<Achievement> AddAchievementAsync(Achievement achievement)
+        public async Task<IDataResult<Achievement>> AddAchievementAsync(CreateAchievementDTO createAchievementDTO)
         {
-            return await _achievementDal.AddAsync(achievement);
+            var achievement = _mapper.Map<Achievement>(createAchievementDTO);
+            var newAchievement = await _achievementDal.AddAsync(achievement);
+
+            return new SuccessfulDataResult<Achievement>(newAchievement, HttpStatusCode.Created);
         }
 
-        public async Task DeleteAchievementAsync(int id)
+        public async Task<IResult> DeleteAchievementAsync(int id)
         {
             await _achievementDal.DeleteAsync(new Achievement { Id = id });
+
+            return new SuccessfulResult(HttpStatusCode.OK);
         }
 
         public async Task<ICollection<Achievement>> GetAllAsync()
@@ -32,14 +44,26 @@ namespace xHelp.Business.Concrete
             return await _achievementDal.GetListAsync();
         }
 
-        public async Task<Achievement> GetAchievementByIdAsync(int id)
+        public async Task<IDataResult<ICollection<Achievement>>> GetAllByUserIdAsync(string id)
         {
-            return await _achievementDal.GetAsync(m => m.Id == id);
+            var achievements = await _achievementDal.GetListAsync(a => a.UserId == id);
+
+            return new SuccessfulDataResult<ICollection<Achievement>>(achievements,HttpStatusCode.OK);
         }
 
-        public async Task UpdateAchievementAsync(Achievement achievement)
+        public async Task<IDataResult<Achievement>> GetAchievementByIdAsync(int id)
         {
-            await _achievementDal.UpdateAsync(achievement);
+            var achievement = await _achievementDal.GetAsync(a => a.Id == id);
+
+            return new SuccessfulDataResult<Achievement>(achievement, HttpStatusCode.OK);
+        }
+
+        public async Task<IDataResult<Achievement>> UpdateAchievementAsync(UpdateAchievementDTO updateAchievementDTO)
+        {
+            var achievement = _mapper.Map<Achievement>(updateAchievementDTO);
+            var updatedAchievement = await _achievementDal.UpdateAsync(achievement);
+
+            return new SuccessfulDataResult<Achievement>(updatedAchievement, HttpStatusCode.OK);
         }
     }
 }
