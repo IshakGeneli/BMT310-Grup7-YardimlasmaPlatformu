@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_test/homeScreen.dart';
-import 'package:my_test/questFormScreen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'questListScreen.dart';
+
+import 'quest/questEvaluationScreen.dart';
+import 'quest/questFormScreen.dart';
+import 'quest/questListScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +49,7 @@ class MyAppState extends State<MyApp> {
       title: _title,
       theme: ThemeData(
         brightness: Brightness.dark,
+        primarySwatch: Colors.green,
         primaryColor: Colors.lightGreen,
         accentColor: Colors.lightGreenAccent,
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -60,6 +63,7 @@ class MyAppState extends State<MyApp> {
         HomeScreen.routeName: (context) => HomeScreen(),
         QuestListScreen.routeName: (context) => QuestListScreen(),
         QuestFormScreen.routeName: (context) => QuestFormScreen(),
+        QuestEvaluationScreen.routeName: (context) => QuestEvaluationScreen(),
       },
     );
   }

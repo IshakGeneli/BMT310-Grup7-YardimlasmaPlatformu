@@ -3,13 +3,13 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class MyBannerAd extends StatefulWidget {
   @override
-  MyBannerAdState createState() => MyBannerAdState();
+  _MyBannerAdState createState() => _MyBannerAdState();
 }
 
-class MyBannerAdState extends State<MyBannerAd> {
+class _MyBannerAdState extends State<MyBannerAd> {
   BannerAd _myBanner;
 
-  MyBannerAdState();
+  _MyBannerAdState();
 
   @override
   void initState() {
