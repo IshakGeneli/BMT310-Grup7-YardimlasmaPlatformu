@@ -11,7 +11,9 @@ namespace xHelp.Business.Abstract
         Task<ICollection<Evidence>> GetAllAsync();
         Task<Evidence> GetEvidenceByIdAsync(int id);
         Task<Evidence> AddEvidenceAsync(Evidence evidence);
+        Task AddEvidencesAsync(ICollection<Evidence> evidences);
         Task UpdateEvidenceAsync(Evidence evidence);
+        Task UpdateEvidencesAsync(ICollection<Evidence> evidences);
         Task DeleteEvidenceAsync(int id);
     }
 }

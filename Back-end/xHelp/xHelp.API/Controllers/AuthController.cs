@@ -18,12 +18,17 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPost("register")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO userRegisterDTO)
         {
-            await _userService.Register(userRegisterDTO);
+            var result = await _userService.Register(userRegisterDTO);
+            return StatusCode(result.HttpStatusCode);
+        }
 
-            return StatusCode(201);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO userLoginDTO)
+        {
+            var result = await _userService.Login(userLoginDTO);
+            return StatusCode(result.HttpStatusCode, result.Data);
         }
     }
 }

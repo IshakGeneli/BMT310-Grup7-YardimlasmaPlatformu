@@ -7,11 +7,11 @@ using xHelp.Entity.Concrete;
 
 namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
 {
-    public class IdentityDbContext : IdentityDbContext<User, UserRole, string>
+    /*public class IdentityDbContext : IdentityDbContext<User, UserRole, string>
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
         {
 
         }
-    }
+    }*/
 }
