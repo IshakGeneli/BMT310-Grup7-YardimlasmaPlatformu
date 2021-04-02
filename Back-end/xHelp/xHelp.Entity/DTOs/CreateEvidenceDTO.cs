@@ -7,5 +7,6 @@ namespace xHelp.Entity.DTOs
     public class CreateEvidenceDTO
     {
         public String Argument { get; set; }
+        public int MissionId { get; set; }
     }
 }
