@@ -63,7 +63,7 @@ namespace xHelp.API
             services.AddSingleton(mapper);
 
             // identity
-            services.AddDbContext<xHelpDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("IdentityDbContext")));
+            services.AddDbContext<xHelpDbContext>();
             services.AddIdentity<User, UserRole>().AddEntityFrameworkStores<xHelpDbContext>().AddDefaultTokenProviders();
 
             // redirect identity authorize is not successful
