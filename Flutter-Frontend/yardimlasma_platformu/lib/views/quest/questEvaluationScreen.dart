@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/models/solution.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
 import 'imageScreen.dart';
 import 'infoList.dart';
-import '../models/quest.dart';
 
 class QuestEvaluationScreen extends StatefulWidget {
   static const String routeName = "/questEvaluation";
@@ -129,14 +125,18 @@ class _QuestEvaluationScreenState extends InfoListState {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: ElevatedButton(
-                    onPressed: (){_acceptSolution(solution.id);},
+                    onPressed: () {
+                      _acceptSolution(solution.id);
+                    },
                     child: Icon(Icons.check),
                   ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: ElevatedButton(
-                    onPressed: (){_declineSolution(solution.id);},
+                    onPressed: () {
+                      _declineSolution(solution.id);
+                    },
                     child: Icon(Icons.close),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.red)),
@@ -150,12 +150,7 @@ class _QuestEvaluationScreenState extends InfoListState {
     );
   }
 
+  void _acceptSolution(int id) {}
 
-  void _acceptSolution(int id){
-
-  }
-
-  void _declineSolution(int id){
-
-  }
+  void _declineSolution(int id) {}
 }

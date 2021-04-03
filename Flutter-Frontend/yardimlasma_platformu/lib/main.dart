@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_test/homeScreen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:my_test/views/profile/profile_screen.dart';
 
-import 'questScreens/questEvaluationScreen.dart';
-import 'questScreens/questFormScreen.dart';
-import 'questScreens/questListScreen.dart';
+import 'views/quest/questEvaluationScreen.dart';
+import 'views/quest/questFormScreen.dart';
+import 'views/quest/questListScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +65,7 @@ class MyAppState extends State<MyApp> {
         QuestListScreen.routeName: (context) => QuestListScreen(),
         QuestFormScreen.routeName: (context) => QuestFormScreen(),
         QuestEvaluationScreen.routeName: (context) => QuestEvaluationScreen(),
+        ProfileScreen.routeName: (context) => ProfileScreen()
       },
     );
   }
