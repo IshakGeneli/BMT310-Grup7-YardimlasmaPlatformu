@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
 import 'package:smart_select/smart_select.dart';
-import 'quest.dart';
+import '../models/quest.dart';
 import 'dart:io';
 
 class QuestFormScreen extends StatefulWidget {
@@ -33,6 +34,8 @@ class _QuestFormScreenState extends State {
 
   Difficulty _difficulty = Difficulty.easy;
   LatLng _coordinates = LatLng(39.9334, 32.8597);
+
+
   bool _showGoogleMap = false;
 
   @override
@@ -260,5 +263,8 @@ class _QuestFormScreenState extends State {
     });
   }
 
-  void _submit() {}
+  void _submit() {
+    Quest quest = Quest(_titleController.text, _descriptionController.text, DateTime.now(), "userName", _difficulty);
+
+  }
 }

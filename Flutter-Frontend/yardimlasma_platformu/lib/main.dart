@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_test/homeScreen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import 'quest/questEvaluationScreen.dart';
-import 'quest/questFormScreen.dart';
-import 'quest/questListScreen.dart';
+import 'questScreens/questEvaluationScreen.dart';
+import 'questScreens/questFormScreen.dart';
+import 'questScreens/questListScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import '../myBottomNavigationBar.dart';
 
-import 'ImageScreen.dart';
-import 'quest.dart';
+import 'imageScreen.dart';
+import '../models/quest.dart';
 
 class QuestDetailScreen extends StatefulWidget {
   final Quest _quest;
@@ -44,7 +44,7 @@ class _QuestDetailScreenState extends State {
               MaterialPageRoute(
                 builder: (_) {
                   return ImageScreen(
-                      Image.network(_quest.imageLink), "questTag${_quest.title}");
+                      Image.network(_quest.imageLink), "questTag${_quest.id}");
                 },
               ),
             );

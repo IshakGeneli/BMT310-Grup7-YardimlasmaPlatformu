@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 
-enum Difficulty {
-  easy,
-  normal,
-  hard,
-}
+import 'difficultyEnum.dart';
+
 
 class Quest {
+  int id;
   final String title;
   final String description;
   final DateTime date;
@@ -20,7 +18,7 @@ class Quest {
 
   Quest(
       this.title, this.description, this.date, this.questGiver, this.difficulty,
-      {this.location, this.imageLink, this.hasFollowed = false});
+      {this.id, this.location, this.imageLink, this.hasFollowed = false});
 
   Future<String> requestAdress() async {
     if (location != null) {

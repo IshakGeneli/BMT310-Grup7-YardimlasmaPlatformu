@@ -1,9 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
-import 'package:my_test/quest/infoList.dart';
+import 'infoList.dart';
 import 'questDetailScreen.dart';
-import 'quest.dart';
+import '../models/quest.dart';
 
 class QuestListScreen extends StatefulWidget {
   static const String routeName = "/questsList";
@@ -21,6 +22,7 @@ class _QuestListScreenState extends InfoListState {
       DateTime.utc(2021, 1, 1),
       "Mete",
       Difficulty.easy,
+      id: index,
       location: LatLng(37.42796133580664, -122.085749655962),
       imageLink:
           "https://mir-s3-cdn-cf.behance.net/project_modules/1400/14331954471197.595cd9574ad45.jpg",
