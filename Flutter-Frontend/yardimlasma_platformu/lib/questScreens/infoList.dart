@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'quest.dart';
+import 'package:my_test/models/difficultyEnum.dart';
+import '../models/quest.dart';
 
 abstract class InfoListState extends State{
 

@@ -3,26 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_test/models/difficultyEnum.dart';
+import 'package:my_test/models/solution.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
-import 'package:my_test/quest/ImageScreen.dart';
-import 'package:my_test/quest/infoList.dart';
-import 'quest.dart';
-
-class Solution {
-  final String title;
-  final DateTime date;
-  final String sender;
-  final Difficulty difficulty;
-  final String imageLink;
-
-  Solution(
-    this.title,
-    this.date,
-    this.sender,
-    this.difficulty,
-    this.imageLink,
-  );
-}
+import 'imageScreen.dart';
+import 'infoList.dart';
+import '../models/quest.dart';
 
 class QuestEvaluationScreen extends StatefulWidget {
   static const String routeName = "/questEvaluation";
@@ -40,6 +26,7 @@ class _QuestEvaluationScreenState extends InfoListState {
       "Mete",
       Difficulty.easy,
       "https://mir-s3-cdn-cf.behance.net/project_modules/1400/14331954471197.595cd9574ad45.jpg",
+      id: index,
     ),
   );
 
@@ -77,7 +64,7 @@ class _QuestEvaluationScreenState extends InfoListState {
     GestureDetector imageSection = GestureDetector(
       child: Hero(
         child: Image.network(solution.imageLink),
-        tag: "evaluationTag${solution.sender}",
+        tag: "evaluationTag${solution.id}",
       ),
       onTap: () {
         Navigator.push(
@@ -85,7 +72,7 @@ class _QuestEvaluationScreenState extends InfoListState {
           MaterialPageRoute(
             builder: (_) {
               return ImageScreen(Image.network(solution.imageLink),
-                  "evaluationTag${solution.sender}");
+                  "evaluationTag${solution.id}");
             },
           ),
         );
@@ -142,14 +129,14 @@ class _QuestEvaluationScreenState extends InfoListState {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: (){_acceptSolution(solution.id);},
                     child: Icon(Icons.check),
                   ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 4,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: (){_declineSolution(solution.id);},
                     child: Icon(Icons.close),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.red)),
@@ -161,5 +148,14 @@ class _QuestEvaluationScreenState extends InfoListState {
         ],
       ),
     );
+  }
+
+
+  void _acceptSolution(int id){
+
+  }
+
+  void _declineSolution(int id){
+
   }
 }
