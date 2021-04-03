@@ -39,8 +39,10 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildButton(
-                          context, MdiIcons.accountCircle, "Profil", null),
+                      _buildButton(context, MdiIcons.accountCircle, "Profil",
+                          () {
+                        Navigator.pushNamed(context, "/profile");
+                      }),
                       _buildButton(context, Icons.message, "Mesajlar", null),
                       _buildButton(context, Icons.settings, "Ayarlar", null),
                     ],

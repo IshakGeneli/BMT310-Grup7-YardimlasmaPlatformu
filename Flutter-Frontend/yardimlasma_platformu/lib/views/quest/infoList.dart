@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_test/models/difficultyEnum.dart';
-import '../models/quest.dart';
 
-abstract class InfoListState extends State{
-
+abstract class InfoListState extends State {
   @protected
   TextStyle bottomTextStyle({bool isBold = false}) {
     return TextStyle(
@@ -34,7 +32,8 @@ abstract class InfoListState extends State{
 
     return Text(
       text,
-      style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: fontSize),
+      style: TextStyle(
+          color: color, fontWeight: FontWeight.bold, fontSize: fontSize),
     );
   }
 

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-import '../myBottomNavigationBar.dart';
 
+import '../../models/quest.dart';
+import '../../myBottomNavigationBar.dart';
 import 'imageScreen.dart';
-import '../models/quest.dart';
 
 class QuestDetailScreen extends StatefulWidget {
   final Quest _quest;

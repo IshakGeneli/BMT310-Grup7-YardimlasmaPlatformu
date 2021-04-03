@@ -4,7 +4,7 @@ import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
 import 'infoList.dart';
 import 'questDetailScreen.dart';
-import '../models/quest.dart';
+import '../../models/quest.dart';
 
 class QuestListScreen extends StatefulWidget {
   static const String routeName = "/questsList";
@@ -86,7 +86,9 @@ class _QuestListScreenState extends InfoListState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            q.location != null ? buildLocationText(q.requestAdress) : Container(),
+            q.location != null
+                ? buildLocationText(q.requestAdress)
+                : Container(),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
               Text(
                 "Gonderen: ${q.questGiver}",
