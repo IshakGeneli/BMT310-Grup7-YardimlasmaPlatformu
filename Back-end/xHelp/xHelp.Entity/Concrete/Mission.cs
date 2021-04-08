@@ -10,6 +10,7 @@ namespace xHelp.Entity.Concrete
         public Mission()
         {
             Evidences = new List<Evidence>();
+            MissionImages = new List<MissionImage>();
         }
 
         public int Id { get; set; }
@@ -23,5 +24,6 @@ namespace xHelp.Entity.Concrete
         public string OwnerUserId { get; set; }
         public User User { get; set; }
         public ICollection<Evidence> Evidences { get; set; }
+        public ICollection<MissionImage> MissionImages { get; set; }
     }
 }

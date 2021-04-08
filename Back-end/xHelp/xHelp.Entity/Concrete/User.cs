@@ -13,10 +13,12 @@ namespace xHelp.Entity.Concrete
         {
             Missions = new List<Mission>();
             Achievements = new List<Achievement>();
+            UserImages = new List<UserImage>();
         }
 
         public Contact Contact { get; set; }
         public ICollection<Mission> Missions { get; set; }
         public ICollection<Achievement> Achievements { get; set; }
+        public ICollection<UserImage> UserImages { get; set; }
     }
 }
