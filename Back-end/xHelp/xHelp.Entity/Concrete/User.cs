@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using xHelp.Core.Entity;
 
 namespace xHelp.Entity.Concrete
 {
-    public class User : IdentityUser
+    public class User : IdentityUser, IEntity
     {
         public User()
         {

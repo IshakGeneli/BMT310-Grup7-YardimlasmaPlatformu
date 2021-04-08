@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using xHelp.Business.Abstract;
 using xHelp.Core.Utilities.Results.Abstract;
 using xHelp.Core.Utilities.Results.Concrete;
+using xHelp.DataAccess.Abstract;
 using xHelp.Entity.Concrete;
 using xHelp.Entity.DTOs;
 
@@ -22,16 +23,33 @@ namespace xHelp.Business.Concrete
         private readonly RoleManager<UserRole> _roleManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly IUserDal _userDal;
 
         public UserManager(UserManager<User> userManager,
             RoleManager<UserRole> roleManager,
             SignInManager<User> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IUserDal userDal)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _userDal = userDal;
+        }
+
+        public async Task<IDataResult<List<User>>> GetAllUserInformationsAsync()
+        {
+            var usersWithInformations = await _userDal.GetListAsync();
+
+            return new SuccessfulDataResult<List<User>>(usersWithInformations, HttpStatusCode.OK);
+        }
+
+        public async Task<IDataResult<User>> GetUserByIdAsync(string id)
+        {
+            var user = await _userDal.GetAsync(u => u.Id == id);
+
+            return new SuccessfulDataResult<User>(user, HttpStatusCode.OK);
         }
 
         public async Task<IDataResult<String>> Login(UserLoginDTO userLoginDTO)
