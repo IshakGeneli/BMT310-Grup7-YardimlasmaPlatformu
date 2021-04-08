@@ -9,9 +9,9 @@ namespace xHelp.Entity.DTOs
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public string Difficulty { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public int Difficulty { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public string OwnerUserId { get; set; }

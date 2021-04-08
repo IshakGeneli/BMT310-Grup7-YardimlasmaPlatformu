@@ -24,7 +24,7 @@ namespace xHelp.API.Controllers
         }
 
         [HttpGet("getAllWithEvidences")]
-        public async Task<IActionResult> GetMissionsWithEvidences()
+        public async Task<IActionResult> GetAllWithEvidences()
         {
             var result = await _missionService.GetAllWithEvidencesAsync();
             return StatusCode(result.HttpStatusCode,result.Data);

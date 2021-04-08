@@ -18,8 +18,8 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             using (var context = new xHelpDbContext())
             {
                 if (filter == null)
-                    return await context.Set<Mission>().Include(m => m.Evidences).ToListAsync();
-                return await context.Set<Mission>().Include(m => m.Evidences).Where(filter).ToListAsync();
+                    return await context.Set<Mission>().Include(m => m.Evidences).Include(m => m.User).ToListAsync();
+                return await context.Set<Mission>().Include(m => m.Evidences).Include(m => m.User).Where(filter).ToListAsync();
             }
         }
 
