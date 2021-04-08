@@ -29,6 +29,10 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             modelBuilder.ApplyConfiguration(new ContactMap());
             modelBuilder.ApplyConfiguration(new MissionMap());
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new UserImageMap());
+            modelBuilder.ApplyConfiguration(new MissionImageMap());
+            modelBuilder.ApplyConfiguration(new EvidenceImageMap());
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -36,5 +40,10 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Evidence> Evidences { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<MissionImage> MissionImages { get; set; }
+        public DbSet<EvidenceImage> EvidenceImages { get; set; }
+
     }
 }
