@@ -46,6 +46,7 @@ namespace xHelp.API
             services.AddSingleton<IAchievementDal, EfAchievementDal>();
             services.AddSingleton<IContactDal, EfContactDal>();
             services.AddSingleton<IEvidenceDal, EfEvidenceDal>();
+            services.AddSingleton<IUserDal, EfUserDal>();
 
             // business layer
             services.AddSingleton<IMissionService, MissionManager>();
