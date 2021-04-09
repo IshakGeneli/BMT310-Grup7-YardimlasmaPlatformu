@@ -134,6 +134,9 @@ namespace xHelp.API
 
             // model nested loop handling
             services.AddMvc().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            // cloudinary
+            services.Configure<CloudinarySettings>(_configuration.GetSection("CloudinarySettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

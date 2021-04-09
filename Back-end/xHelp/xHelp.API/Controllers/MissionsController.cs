@@ -31,16 +31,9 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPost("createMission")]
-        public async Task<IActionResult> CreateMission([FromBody] CreateMissionDTO createMissionDTO)
+        public async Task<IActionResult> CreateMission([FromForm] CreateMissionDTO createMissionDTO)
         {
             var result = await _missionService.AddMissionAsync(createMissionDTO);
-            return StatusCode(result.HttpStatusCode, result.Data);
-        }
-
-        [HttpGet("getMissionById/{id}")]
-        public async Task<IActionResult> GetMissionById(int id)
-        {
-            var result = await _missionService.GetMissionByIdAsync(id);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 

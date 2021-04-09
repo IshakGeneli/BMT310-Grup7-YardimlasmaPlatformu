@@ -12,7 +12,6 @@ namespace xHelp.Business.Abstract
     {
         Task<IDataResult<ICollection<Mission>>> GetAllAsync();
         Task<IDataResult<ICollection<Mission>>> GetAllWithEvidencesAsync();
-        Task<IDataResult<Mission>> GetMissionByIdAsync(int id);
         Task<IDataResult<Mission>> GetMissionByIdWithEvidencesAsync(int id);
         Task<IDataResult<Mission>> AddMissionAsync(CreateMissionDTO createMissionDTO);
         Task CreateEvidencesOnMission(CreateEvidenceListDTO createEvidenceListDTO);

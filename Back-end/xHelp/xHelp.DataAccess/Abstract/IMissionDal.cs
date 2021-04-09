@@ -12,5 +12,6 @@ namespace xHelp.DataAccess.Abstract
     {
         Task<ICollection<Mission>> GetListWithEvidencesAsync(Expression<Func<Mission, bool>> filter = null);
         Task<Mission> GetWithEvidencesAsync(Expression<Func<Mission, bool>> filter = null);
+        Task AddMissionWithImageAsync(MissionImage missionImage);
     }
 }

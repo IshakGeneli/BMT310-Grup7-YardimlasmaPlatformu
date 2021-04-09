@@ -28,5 +28,14 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task AddEvidenceWithImageAsync(EvidenceImage evidenceImage)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                await context.EvidenceImages.AddAsync(evidenceImage);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

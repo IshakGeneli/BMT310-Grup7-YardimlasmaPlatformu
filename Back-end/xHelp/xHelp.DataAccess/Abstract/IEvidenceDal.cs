@@ -11,5 +11,6 @@ namespace xHelp.DataAccess.Abstract
     {
         Task AddEvidencesAsync(ICollection<Evidence> evidences);
         Task UpdateEvidencesAsync(ICollection<Evidence> evidences);
+        Task AddEvidenceWithImageAsync(EvidenceImage evidenceImage);
     }
 }

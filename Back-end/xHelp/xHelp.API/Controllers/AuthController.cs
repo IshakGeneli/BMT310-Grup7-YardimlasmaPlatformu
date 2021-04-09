@@ -20,7 +20,7 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterDTO userRegisterDTO)
+        public async Task<IActionResult> Register([FromForm] UserRegisterDTO userRegisterDTO)
         {
             var result = await _userService.Register(userRegisterDTO);
             return StatusCode(result.HttpStatusCode);

@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,6 +13,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Business.Utilities;
+using xHelp.Business.Utilities.Abstract;
 using xHelp.Core.Utilities.Results.Abstract;
 using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
@@ -24,18 +30,21 @@ namespace xHelp.Business.Concrete
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly IUserDal _userDal;
+        private ICloudinaryOperations _cloudinaryOperations;
 
         public UserManager(UserManager<User> userManager,
             RoleManager<UserRole> roleManager,
             SignInManager<User> signInManager,
             IConfiguration configuration,
-            IUserDal userDal)
+            IUserDal userDal,
+            ICloudinaryOperations cloudinaryOperations)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _userDal = userDal;
+            _cloudinaryOperations = cloudinaryOperations;
         }
 
         public async Task<IDataResult<List<User>>> GetAllUserInformationsAsync()
@@ -76,46 +85,55 @@ namespace xHelp.Business.Concrete
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);
 
-                return new SuccessfulDataResult<String>(tokenString,HttpStatusCode.OK);
+                return new SuccessfulDataResult<String>(tokenString, HttpStatusCode.OK);
             }
-           
-            return new ErrorDataResult<String>("",HttpStatusCode.Unauthorized);
+
+            return new ErrorDataResult<String>("", HttpStatusCode.Unauthorized);
         }
 
         public async Task<IResult> Register(UserRegisterDTO userRegisterDTO)
         {
-
             User newUser = new User
             {
                 UserName = userRegisterDTO.UserName,
                 Email = userRegisterDTO.Email
             };
-            IdentityResult userResult = await _userManager.CreateAsync(newUser, userRegisterDTO.Password);
 
-            if (userResult.Succeeded)
+            bool isRoleExisting = await _roleManager.RoleExistsAsync("Admin");
+            if (!isRoleExisting)
             {
-                bool isRoleExisting = await _roleManager.RoleExistsAsync("Admin");
-                if (!isRoleExisting)
+                UserRole newRole = new UserRole
                 {
-                    UserRole newRole = new UserRole
-                    {
-                        Name = "Admin"
-                    };
-                    IdentityResult roleResult = await _roleManager.CreateAsync(newRole);
+                    Name = "Admin"
+                };
+                IdentityResult roleResult = await _roleManager.CreateAsync(newRole);
 
-                    if (!roleResult.Succeeded)
-                    {
-                        return new ErrorResult(HttpStatusCode.InternalServerError);
-                    }
+                if (!roleResult.Succeeded)
+                {
+                    return new ErrorResult(HttpStatusCode.InternalServerError);
                 }
+            }
 
-                _userManager.AddToRoleAsync(newUser, "Admin").Wait();
-                return new SuccessfulResult(HttpStatusCode.Created);
-            }
-            else
+            var uploadResult = await _cloudinaryOperations.UploadImageAsync(userRegisterDTO.ImageFile);
+
+            await AddUserWithImageAsync(newUser, uploadResult);
+
+            _userManager.AddToRoleAsync(newUser, "Admin").Wait();
+            return new SuccessfulResult(HttpStatusCode.Created);
+        }
+
+        private async Task AddUserWithImageAsync(User user, ImageUploadResult ımageUploadResult)
+        {
+            var userImage = new UserImage
             {
-                return new ErrorResult(HttpStatusCode.Conflict);
-            }
+                Image = new Image
+                {
+                    Url = ımageUploadResult.Url.ToString()
+                },
+                User = user
+            };
+            await _userDal.AddUserWithImageAsync(userImage);
         }
     }
 }
+

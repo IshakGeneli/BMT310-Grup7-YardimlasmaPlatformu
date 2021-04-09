@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Business.Utilities.Abstract;
 using xHelp.Core.Utilities.Results.Abstract;
 using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
@@ -17,19 +19,23 @@ namespace xHelp.Business.Concrete
     {
         private readonly IEvidenceDal _evidenceDal;
         private readonly IMapper _mapper;
+        private ICloudinaryOperations _cloudinaryOperations;
 
-        public EvidenceManager(IEvidenceDal evidenceDal, IMapper mapper)
+        public EvidenceManager(IEvidenceDal evidenceDal, IMapper mapper, ICloudinaryOperations cloudinaryOperations)
         {
             _evidenceDal = evidenceDal;
             _mapper = mapper;
+            _cloudinaryOperations = cloudinaryOperations;
         }
 
         public async Task<IDataResult<Evidence>> AddEvidenceAsync(CreateEvidenceDTO createEvidenceDTO)
         {
-            var evidence = _mapper.Map<Evidence>(createEvidenceDTO);
-            var newEvidence = await _evidenceDal.AddAsync(evidence);
+            var uploadResult = await _cloudinaryOperations.UploadImageAsync(createEvidenceDTO.ImageFile);
 
-            return new SuccessfulDataResult<Evidence>(newEvidence, HttpStatusCode.OK);
+            var evidence = _mapper.Map<Evidence>(createEvidenceDTO);
+            await AddEvidenceWithImageAsync(evidence, uploadResult);
+
+            return new SuccessfulDataResult<Evidence>(evidence, HttpStatusCode.OK);
         }
 
         public async Task AddEvidencesAsync(ICollection<Evidence> evidences)
@@ -74,6 +80,19 @@ namespace xHelp.Business.Concrete
         public async Task UpdateEvidencesAsync(ICollection<Evidence> evidences)
         {
             await _evidenceDal.UpdateEvidencesAsync(evidences);
+        }
+
+        private async Task AddEvidenceWithImageAsync(Evidence evidence, ImageUploadResult ımageUploadResult)
+        {
+            var evidenceImage = new EvidenceImage
+            {
+                Image = new Image
+                {
+                    Url = ımageUploadResult.Url.ToString()
+                },
+                Evidence = evidence
+            };
+            await _evidenceDal.AddEvidenceWithImageAsync(evidenceImage);
         }
     }
 }
