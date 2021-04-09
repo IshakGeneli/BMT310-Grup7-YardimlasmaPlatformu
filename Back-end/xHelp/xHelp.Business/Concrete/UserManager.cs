@@ -56,7 +56,7 @@ namespace xHelp.Business.Concrete
 
         public async Task<IDataResult<User>> GetUserByIdAsync(string id)
         {
-            var user = await _userDal.GetAsync(u => u.Id == id);
+            var user = await _userDal.GetWithImageAsync(u => u.Id == id);
 
             return new SuccessfulDataResult<User>(user, HttpStatusCode.OK);
         }

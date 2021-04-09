@@ -27,7 +27,7 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
         {
             using (var context = new xHelpDbContext())
             {
-                return await context.Set<Mission>().Include(m => m.Evidences).Include(m => m.User).SingleOrDefaultAsync(filter);
+                return await context.Set<Mission>().Include(m => m.MissionImages).ThenInclude(mI => mI.Image).Include(m => m.Evidences).Include(m => m.User).SingleOrDefaultAsync(filter);
             }
         }
 

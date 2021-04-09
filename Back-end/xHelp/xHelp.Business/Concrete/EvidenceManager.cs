@@ -65,7 +65,7 @@ namespace xHelp.Business.Concrete
 
         public async Task<IDataResult<Evidence>> GetEvidenceByIdAsync(int id)
         {
-            var evidence = await _evidenceDal.GetAsync(e => e.Id == id);
+            var evidence = await _evidenceDal.GetEvidenceWithImageAsync(e => e.Id == id);
 
             return new SuccessfulDataResult<Evidence>(evidence, HttpStatusCode.OK);
         }

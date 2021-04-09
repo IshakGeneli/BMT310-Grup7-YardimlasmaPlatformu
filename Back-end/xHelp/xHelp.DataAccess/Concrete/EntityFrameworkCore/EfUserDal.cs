@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Core.DataAccess.EntityFrameworkCore;
@@ -16,6 +18,14 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             {
                 await context.UserImages.AddAsync(userImage);
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<User> GetWithImageAsync(Expression<Func<User, bool>> filter = null)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                return await context.Set<User>().Include(m => m.UserImages).ThenInclude(uI => uI.Image).SingleOrDefaultAsync(filter);
             }
         }
     }
