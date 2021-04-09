@@ -96,7 +96,8 @@ namespace xHelp.Business.Concrete
             User newUser = new User
             {
                 UserName = userRegisterDTO.UserName,
-                Email = userRegisterDTO.Email
+                Email = userRegisterDTO.Email,
+                NormalizedEmail = userRegisterDTO.Email
             };
 
             bool isRoleExisting = await _roleManager.RoleExistsAsync("Admin");
@@ -117,6 +118,10 @@ namespace xHelp.Business.Concrete
             var uploadResult = await _cloudinaryOperations.UploadImageAsync(userRegisterDTO.ImageFile);
 
             await AddUserWithImageAsync(newUser, uploadResult);
+
+            var user = await _userManager.FindByEmailAsync(userRegisterDTO.Email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, userRegisterDTO.Password);
 
             _userManager.AddToRoleAsync(newUser, "Admin").Wait();
             return new SuccessfulResult(HttpStatusCode.Created);
