@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +14,8 @@ namespace xHelp.Entity.DTOs
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public DateTime CreatedDate { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public string PublicId { get; set; }
 
         public string OwnerUserId { get; set; }
     }

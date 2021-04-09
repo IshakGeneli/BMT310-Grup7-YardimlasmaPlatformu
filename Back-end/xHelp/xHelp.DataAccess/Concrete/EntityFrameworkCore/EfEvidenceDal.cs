@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Core.DataAccess.EntityFrameworkCore;
@@ -35,6 +36,24 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             {
                 await context.EvidenceImages.AddAsync(evidenceImage);
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateEvidenceWithImageAsync(Evidence evidence, Image image)
+        {
+            await UpdateAsync(evidence);
+            using (var context = new xHelpDbContext())
+            {
+                context.Images.Update(image);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Evidence> GetEvidenceWithImageAsync(Expression<Func<Evidence, bool>> filter = null)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                return await context.Set<Evidence>().Include(e => e.EvidenceImages).ThenInclude(x => x.Image).SingleOrDefaultAsync(filter);
             }
         }
     }

@@ -39,5 +39,23 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task UpdateMissionWithImageAsync(Mission mission, Image image)
+        {
+            await UpdateAsync(mission);
+            using (var context = new xHelpDbContext())
+            {
+                context.Images.Update(image);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Mission> GetMissionWithImagesAsync(Expression<Func<Mission, bool>> filter = null)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                return await context.Set<Mission>().Include(m => m.MissionImages).ThenInclude(mI => mI.Image).SingleOrDefaultAsync(filter);
+            }
+        }
     }
 }

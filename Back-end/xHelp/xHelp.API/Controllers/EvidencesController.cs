@@ -10,7 +10,7 @@ using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class EvidencesController : Controller
@@ -44,7 +44,7 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPut("updateEvidence")]
-        public async Task<IActionResult> UpdateEvidence([FromBody] UpdateEvidenceDTO updateEvidenceDTO)
+        public async Task<IActionResult> UpdateEvidence([FromForm] UpdateEvidenceDTO updateEvidenceDTO)
         {
             var result = await _evidenceService.UpdateEvidenceAsync(updateEvidenceDTO);
             return StatusCode(result.HttpStatusCode, result.Data);

@@ -39,5 +39,13 @@ namespace xHelp.Business.Utilities
 
             return uploadResult;
         }
+
+        public async Task<ImageUploadResult> UpdateImageAsync(IFormFile formFile, string publicId)
+        {
+            var deletionParams = new DeletionParams(publicId);
+            await _cloudinary.DestroyAsync(deletionParams);
+
+            return await UploadImageAsync(formFile);
+        }
     }
 }

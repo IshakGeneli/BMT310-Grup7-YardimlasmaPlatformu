@@ -11,7 +11,7 @@ using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
@@ -51,15 +51,16 @@ namespace xHelp.API.Controllers
             return StatusCode(200);
         }
 
+        /*
         [HttpPut("updateMissionWithEvidences")]
         public async Task<IActionResult> UpdateMissionWithEvidences([FromBody] UpdateMissionWithEvidencesDTO updateMissionWithEvidencesDTO)
         {
             var result = await _missionService.UpdateMissionWithEvidencesAsync(updateMissionWithEvidencesDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
-        }
+        }*/
 
         [HttpPut("updateMission")]
-        public async Task<IActionResult> UpdateMission([FromBody] UpdateMissionDTO updateMissionDTO)
+        public async Task<IActionResult> UpdateMission([FromForm] UpdateMissionDTO updateMissionDTO)
         {
             var result = await _missionService.UpdateMissionAsync(updateMissionDTO);
             return StatusCode(result.HttpStatusCode, result.Data);

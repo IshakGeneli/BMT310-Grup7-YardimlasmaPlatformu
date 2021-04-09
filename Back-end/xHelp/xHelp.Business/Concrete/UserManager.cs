@@ -122,13 +122,14 @@ namespace xHelp.Business.Concrete
             return new SuccessfulResult(HttpStatusCode.Created);
         }
 
-        private async Task AddUserWithImageAsync(User user, ImageUploadResult ımageUploadResult)
+        private async Task AddUserWithImageAsync(User user, ImageUploadResult imageUploadResult)
         {
+            user.PublicId = imageUploadResult.PublicId;
             var userImage = new UserImage
             {
                 Image = new Image
                 {
-                    Url = ımageUploadResult.Url.ToString()
+                    Url = imageUploadResult.Url.ToString()
                 },
                 User = user
             };

@@ -16,6 +16,8 @@ namespace xHelp.Entity.Concrete
             UserImages = new List<UserImage>();
         }
 
+        public string PublicId { get; set; }
+
         public Contact Contact { get; set; }
         public ICollection<Mission> Missions { get; set; }
         public ICollection<Achievement> Achievements { get; set; }

@@ -16,7 +16,7 @@ namespace xHelp.Business.Abstract
         Task<IDataResult<Mission>> AddMissionAsync(CreateMissionDTO createMissionDTO);
         Task CreateEvidencesOnMission(CreateEvidenceListDTO createEvidenceListDTO);
         Task<IDataResult<Mission>> UpdateMissionWithEvidencesAsync(UpdateMissionWithEvidencesDTO updateMissionWithEvidencesDTO);
-        Task<IDataResult<UpdateMissionDTO>> UpdateMissionAsync(UpdateMissionDTO updateMissionDTO);
+        Task<IDataResult<Mission>> UpdateMissionAsync(UpdateMissionDTO updateMissionDTO);
         Task<IResult> DeleteMissionAsync(int id);
     }
 }

@@ -20,6 +20,7 @@ namespace xHelp.Entity.Concrete
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string PublicId { get; set; }
 
         public string OwnerUserId { get; set; }
         public User User { get; set; }

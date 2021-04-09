@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using xHelp.Business.Abstract;
 using xHelp.Business.Concrete;
 using xHelp.Business.Utilities;
+using xHelp.Business.Utilities.Abstract;
 using xHelp.DataAccess.Abstract;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 using xHelp.Entity.Concrete;
@@ -57,6 +58,7 @@ namespace xHelp.API
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
             services.AddScoped<IUserService, UserManager>();
+            services.AddSingleton<ICloudinaryOperations, CloudinaryOperations>();
 
             // mapper
             var mapperConfig = new MapperConfiguration(mc =>

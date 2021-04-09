@@ -10,5 +10,6 @@ namespace xHelp.Business.Utilities.Abstract
     public interface ICloudinaryOperations
     {
         Task<ImageUploadResult> UploadImageAsync(IFormFile formFile);
+        Task<ImageUploadResult> UpdateImageAsync(IFormFile formFile, string publicId);
     }
 }

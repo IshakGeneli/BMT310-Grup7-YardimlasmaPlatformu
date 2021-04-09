@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 
 namespace xHelp.DataAccess.Migrations
 {
     [DbContext(typeof(xHelpDbContext))]
-    partial class xHelpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210409175544_addedNewFieldsForImage")]
+    partial class addedNewFieldsForImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
