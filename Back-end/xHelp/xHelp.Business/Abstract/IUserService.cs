@@ -12,5 +12,7 @@ namespace xHelp.Business.Abstract
     {
         Task<IResult> Register(UserRegisterDTO userRegisterDTO);
         Task<IDataResult<String>> Login(UserLoginDTO userLoginDTO);
+        Task<IDataResult<List<User>>> GetAllUserInformationsAsync();
+        Task<IDataResult<User>> GetUserByIdAsync(string id);
     }
 }

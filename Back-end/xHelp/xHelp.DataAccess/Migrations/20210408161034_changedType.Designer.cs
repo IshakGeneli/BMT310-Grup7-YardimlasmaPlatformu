@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 
 namespace xHelp.DataAccess.Migrations
 {
     [DbContext(typeof(xHelpDbContext))]
-    partial class xHelpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210408161034_changedType")]
+    partial class changedType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,44 +194,11 @@ namespace xHelp.DataAccess.Migrations
                     b.Property<int>("MissionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MissionId");
 
                     b.ToTable("Evidences");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.EvidenceImage", b =>
-                {
-                    b.Property<int>("EvidenceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EvidenceId", "ImageId");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("EvidenceImages");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.Mission", b =>
@@ -257,9 +226,6 @@ namespace xHelp.DataAccess.Migrations
                     b.Property<string>("OwnerUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -268,21 +234,6 @@ namespace xHelp.DataAccess.Migrations
                     b.HasIndex("OwnerUserId");
 
                     b.ToTable("Missions");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.MissionImage", b =>
-                {
-                    b.Property<int>("MissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MissionId", "ImageId");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("MissionImages");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.User", b =>
@@ -327,9 +278,6 @@ namespace xHelp.DataAccess.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -351,21 +299,6 @@ namespace xHelp.DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.UserImage", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ImageId");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("UserImages");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.UserRole", b =>
@@ -477,25 +410,6 @@ namespace xHelp.DataAccess.Migrations
                     b.Navigation("Mission");
                 });
 
-            modelBuilder.Entity("xHelp.Entity.Concrete.EvidenceImage", b =>
-                {
-                    b.HasOne("xHelp.Entity.Concrete.Evidence", "Evidence")
-                        .WithMany("EvidenceImages")
-                        .HasForeignKey("EvidenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("xHelp.Entity.Concrete.Image", "Image")
-                        .WithMany("EvidenceImages")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Evidence");
-
-                    b.Navigation("Image");
-                });
-
             modelBuilder.Entity("xHelp.Entity.Concrete.Mission", b =>
                 {
                     b.HasOne("xHelp.Entity.Concrete.User", "User")
@@ -506,63 +420,9 @@ namespace xHelp.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("xHelp.Entity.Concrete.MissionImage", b =>
-                {
-                    b.HasOne("xHelp.Entity.Concrete.Image", "Image")
-                        .WithMany("MissionImages")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("xHelp.Entity.Concrete.Mission", "Mission")
-                        .WithMany("MissionImages")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-
-                    b.Navigation("Mission");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.UserImage", b =>
-                {
-                    b.HasOne("xHelp.Entity.Concrete.Image", "Image")
-                        .WithMany("UserImages")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("xHelp.Entity.Concrete.User", "User")
-                        .WithMany("UserImages")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Image");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.Evidence", b =>
-                {
-                    b.Navigation("EvidenceImages");
-                });
-
-            modelBuilder.Entity("xHelp.Entity.Concrete.Image", b =>
-                {
-                    b.Navigation("EvidenceImages");
-
-                    b.Navigation("MissionImages");
-
-                    b.Navigation("UserImages");
-                });
-
             modelBuilder.Entity("xHelp.Entity.Concrete.Mission", b =>
                 {
                     b.Navigation("Evidences");
-
-                    b.Navigation("MissionImages");
                 });
 
             modelBuilder.Entity("xHelp.Entity.Concrete.User", b =>
@@ -572,8 +432,6 @@ namespace xHelp.DataAccess.Migrations
                     b.Navigation("Contact");
 
                     b.Navigation("Missions");
-
-                    b.Navigation("UserImages");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,8 +18,8 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
             using (var context = new xHelpDbContext())
             {
                 if (filter == null)
-                    return await context.Set<Mission>().Include(m => m.Evidences).ToListAsync();
-                return await context.Set<Mission>().Include(m => m.Evidences).Where(filter).ToListAsync();
+                    return await context.Set<Mission>().Include(m => m.Evidences).Include(m => m.User).ToListAsync();
+                return await context.Set<Mission>().Include(m => m.Evidences).Include(m => m.User).Where(filter).ToListAsync();
             }
         }
 
@@ -27,7 +27,34 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
         {
             using (var context = new xHelpDbContext())
             {
-                return await context.Set<Mission>().Include(m => m.Evidences).SingleOrDefaultAsync(filter);
+                return await context.Set<Mission>().Include(m => m.MissionImages).ThenInclude(mI => mI.Image).Include(m => m.Evidences).Include(m => m.User).SingleOrDefaultAsync(filter);
+            }
+        }
+
+        public async Task AddMissionWithImageAsync(MissionImage missionImage)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                await context.MissionImages.AddAsync(missionImage);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateMissionWithImageAsync(Mission mission, Image image)
+        {
+            await UpdateAsync(mission);
+            using (var context = new xHelpDbContext())
+            {
+                context.Images.Update(image);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Mission> GetMissionWithImagesAsync(Expression<Func<Mission, bool>> filter = null)
+        {
+            using (var context = new xHelpDbContext())
+            {
+                return await context.Set<Mission>().Include(m => m.MissionImages).ThenInclude(mI => mI.Image).SingleOrDefaultAsync(filter);
             }
         }
     }

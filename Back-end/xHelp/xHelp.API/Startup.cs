@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +10,21 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
 using xHelp.Business.Concrete;
 using xHelp.Business.Utilities;
+using xHelp.Business.Utilities.Abstract;
 using xHelp.DataAccess.Abstract;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 using xHelp.Entity.Concrete;
@@ -46,6 +50,7 @@ namespace xHelp.API
             services.AddSingleton<IAchievementDal, EfAchievementDal>();
             services.AddSingleton<IContactDal, EfContactDal>();
             services.AddSingleton<IEvidenceDal, EfEvidenceDal>();
+            services.AddSingleton<IUserDal, EfUserDal>();
 
             // business layer
             services.AddSingleton<IMissionService, MissionManager>();
@@ -53,6 +58,7 @@ namespace xHelp.API
             services.AddSingleton<IContactService, ContactManager>();
             services.AddSingleton<IEvidenceService, EvidenceManager>();
             services.AddScoped<IUserService, UserManager>();
+            services.AddSingleton<ICloudinaryOperations, CloudinaryOperations>();
 
             // mapper
             var mapperConfig = new MapperConfiguration(mc =>
@@ -130,6 +136,9 @@ namespace xHelp.API
 
             // model nested loop handling
             services.AddMvc().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            // cloudinary
+            services.Configure<CloudinarySettings>(_configuration.GetSection("CloudinarySettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,6 +148,13 @@ namespace xHelp.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
+                RequestPath = new PathString("/Uploads")
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "xHelp API V1"); });

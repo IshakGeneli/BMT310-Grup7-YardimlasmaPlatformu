@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using xHelp.Business.Abstract;
+using xHelp.Business.Utilities.Abstract;
 using xHelp.Core.Utilities.Results.Abstract;
 using xHelp.Core.Utilities.Results.Concrete;
 using xHelp.DataAccess.Abstract;
@@ -18,18 +21,27 @@ namespace xHelp.Business.Concrete
         private readonly IMissionDal _missionDal;
         private readonly IEvidenceService _evidenceService;
         private readonly IMapper _mapper;
+        private ICloudinaryOperations _cloudinaryOperations;
 
-        public MissionManager(IMissionDal missionDal, IMapper mapper, IEvidenceService evidenceService)
+        public MissionManager(
+            IMissionDal missionDal, 
+            IMapper mapper, 
+            IEvidenceService evidenceService, 
+            ICloudinaryOperations cloudinaryOperations)
         {
             _missionDal = missionDal;
             _mapper = mapper;
             _evidenceService = evidenceService;
+            _cloudinaryOperations = cloudinaryOperations;
         }
 
         public async Task<IDataResult<Mission>> AddMissionAsync(CreateMissionDTO createMissionDTO)
         {
+            var uploadResult = await _cloudinaryOperations.UploadImageAsync(createMissionDTO.ImageFile);
+
             var mission = _mapper.Map<Mission>(createMissionDTO);
-            await _missionDal.AddAsync(mission);
+            await AddMissionWithImageAsync(mission, uploadResult);
+            
             return new SuccessfulDataResult<Mission>(mission,HttpStatusCode.Created);
         }
 
@@ -66,27 +78,26 @@ namespace xHelp.Business.Concrete
             return new SuccessfulDataResult<ICollection<Mission>>(missions, HttpStatusCode.OK);
         }
 
-        public async Task<IDataResult<Mission>> GetMissionByIdAsync(int id)
+        public async Task<IDataResult<Mission>> UpdateMissionAsync(UpdateMissionDTO updateMissionDTO)
         {
-            var mission = await _missionDal.GetAsync(m => m.Id == id);
-            return new SuccessfulDataResult<Mission>(mission,HttpStatusCode.OK);
-        }
+            var mission = await _missionDal.GetMissionWithImagesAsync(m => m.PublicId == updateMissionDTO.PublicId);
+            var image = mission.MissionImages.FirstOrDefault(mI => mI.MissionId == updateMissionDTO.Id).Image;
 
-        public async Task<IDataResult<Mission>> GetWithEvidencesAsync(int id)
-        {
-            var mission = await _missionDal.GetWithEvidencesAsync(m => m.Id == id);
-            return new SuccessfulDataResult<Mission>(mission, HttpStatusCode.OK);
-        }
+            var uploadResult = await _cloudinaryOperations.UpdateImageAsync(updateMissionDTO.ImageFile, mission.PublicId);
 
-        public async Task<IDataResult<UpdateMissionDTO>> UpdateMissionAsync(UpdateMissionDTO updateMissionDTO)
-        {
-            var mission = (await GetMissionByIdWithEvidencesAsync(updateMissionDTO.Id)).Data;
-            var updatedMission = _mapper.Map<Mission>(updateMissionDTO);
-            updatedMission.Evidences = mission.Evidences;
+            mission.PublicId = uploadResult.PublicId;
+            mission.Latitude = updateMissionDTO.Latitude;
+            mission.Longitude = updateMissionDTO.Longitude;
+            mission.Title = updateMissionDTO.Title;
+            mission.Content = updateMissionDTO.Content;
+            mission.CreatedDate = updateMissionDTO.CreatedDate;
+            mission.Difficulty = updateMissionDTO.Difficulty;
+            mission.OwnerUserId = updateMissionDTO.OwnerUserId;
+            image.Url = uploadResult.Url.ToString();
 
-            await _missionDal.UpdateAsync(updatedMission);
+            await _missionDal.UpdateMissionWithImageAsync(mission, image);
 
-            return new SuccessfulDataResult<UpdateMissionDTO>(updateMissionDTO, HttpStatusCode.Created);
+            return new SuccessfulDataResult<Mission>(mission, HttpStatusCode.Created);
         }
 
         public async Task<IDataResult<Mission>> UpdateMissionWithEvidencesAsync(UpdateMissionWithEvidencesDTO updateMissionDTO)
@@ -106,6 +117,20 @@ namespace xHelp.Business.Concrete
         {
             var mission = await _missionDal.GetWithEvidencesAsync(m => m.Id == id);
             return new SuccessfulDataResult<Mission>(mission, HttpStatusCode.OK);
+        }
+
+        private async Task AddMissionWithImageAsync(Mission mission, ImageUploadResult imageUploadResult)
+        {
+            mission.PublicId = imageUploadResult.PublicId;
+            var missionImage = new MissionImage
+            {
+                Image = new Image
+                {
+                    Url = imageUploadResult.Url.ToString()
+                },
+                Mission = mission
+            };
+            await _missionDal.AddMissionWithImageAsync(missionImage);
         }
     }
 }

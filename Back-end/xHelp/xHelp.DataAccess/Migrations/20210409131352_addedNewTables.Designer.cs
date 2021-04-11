@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using xHelp.DataAccess.Concrete.EntityFrameworkCore;
 
 namespace xHelp.DataAccess.Migrations
 {
     [DbContext(typeof(xHelpDbContext))]
-    partial class xHelpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210409131352_addedNewTables")]
+    partial class addedNewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,9 +194,6 @@ namespace xHelp.DataAccess.Migrations
                     b.Property<int>("MissionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MissionId");
@@ -256,9 +255,6 @@ namespace xHelp.DataAccess.Migrations
 
                     b.Property<string>("OwnerUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -326,9 +322,6 @@ namespace xHelp.DataAccess.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

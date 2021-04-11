@@ -24,23 +24,16 @@ namespace xHelp.API.Controllers
         }
 
         [HttpGet("getAllWithEvidences")]
-        public async Task<IActionResult> GetMissionsWithEvidences()
+        public async Task<IActionResult> GetAllWithEvidences()
         {
             var result = await _missionService.GetAllWithEvidencesAsync();
             return StatusCode(result.HttpStatusCode,result.Data);
         }
 
         [HttpPost("createMission")]
-        public async Task<IActionResult> CreateMission([FromBody] CreateMissionDTO createMissionDTO)
+        public async Task<IActionResult> CreateMission([FromForm] CreateMissionDTO createMissionDTO)
         {
             var result = await _missionService.AddMissionAsync(createMissionDTO);
-            return StatusCode(result.HttpStatusCode, result.Data);
-        }
-
-        [HttpGet("getMissionById/{id}")]
-        public async Task<IActionResult> GetMissionById(int id)
-        {
-            var result = await _missionService.GetMissionByIdAsync(id);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 
@@ -58,15 +51,16 @@ namespace xHelp.API.Controllers
             return StatusCode(200);
         }
 
+        /*
         [HttpPut("updateMissionWithEvidences")]
         public async Task<IActionResult> UpdateMissionWithEvidences([FromBody] UpdateMissionWithEvidencesDTO updateMissionWithEvidencesDTO)
         {
             var result = await _missionService.UpdateMissionWithEvidencesAsync(updateMissionWithEvidencesDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
-        }
+        }*/
 
         [HttpPut("updateMission")]
-        public async Task<IActionResult> UpdateMission([FromBody] UpdateMissionDTO updateMissionDTO)
+        public async Task<IActionResult> UpdateMission([FromForm] UpdateMissionDTO updateMissionDTO)
         {
             var result = await _missionService.UpdateMissionAsync(updateMissionDTO);
             return StatusCode(result.HttpStatusCode, result.Data);

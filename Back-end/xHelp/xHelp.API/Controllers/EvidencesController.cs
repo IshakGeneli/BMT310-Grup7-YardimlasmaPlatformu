@@ -37,14 +37,14 @@ namespace xHelp.API.Controllers
         }
 
         [HttpPost("createEvidence")]
-        public async Task<IActionResult> CreateEvidence([FromBody] CreateEvidenceDTO createEvidenceDTO)
+        public async Task<IActionResult> CreateEvidence([FromForm] CreateEvidenceDTO createEvidenceDTO)
         {
             var result = await _evidenceService.AddEvidenceAsync(createEvidenceDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 
         [HttpPut("updateEvidence")]
-        public async Task<IActionResult> UpdateEvidence([FromBody] UpdateEvidenceDTO updateEvidenceDTO)
+        public async Task<IActionResult> UpdateEvidence([FromForm] UpdateEvidenceDTO updateEvidenceDTO)
         {
             var result = await _evidenceService.UpdateEvidenceAsync(updateEvidenceDTO);
             return StatusCode(result.HttpStatusCode, result.Data);
