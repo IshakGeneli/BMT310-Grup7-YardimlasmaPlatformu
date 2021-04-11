@@ -44,7 +44,9 @@ class HomeScreen extends StatelessWidget {
                         Navigator.pushNamed(context, "/profile");
                       }),
                       _buildButton(context, Icons.message, "Mesajlar", null),
-                      _buildButton(context, Icons.settings, "Ayarlar", null),
+                      _buildButton(context, Icons.settings, "Ayarlar", () {
+                        Navigator.pushNamed(context, "/settings");
+                      }),
                     ],
                   ),
                 ),
