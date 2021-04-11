@@ -18,7 +18,7 @@ namespace xHelp.DataAccess.Concrete.EntityFrameworkCore
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("");
+            optionsBuilder.UseSqlServer("Data Source=SQL5103.site4now.net;Initial Catalog=DB_A71B8C_xHelp;User Id=DB_A71B8C_xHelp_admin;Password=P#dR4i3!SVsBifT");
         }
         public xHelpDbContext()
         {

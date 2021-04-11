@@ -6,6 +6,7 @@ import 'package:my_test/views/profile/profile_screen.dart';
 import 'views/quest/questEvaluationScreen.dart';
 import 'views/quest/questFormScreen.dart';
 import 'views/quest/questListScreen.dart';
+import 'views/settings/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +66,8 @@ class MyAppState extends State<MyApp> {
         QuestListScreen.routeName: (context) => QuestListScreen(),
         QuestFormScreen.routeName: (context) => QuestFormScreen(),
         QuestEvaluationScreen.routeName: (context) => QuestEvaluationScreen(),
-        ProfileScreen.routeName: (context) => ProfileScreen()
+        ProfileScreen.routeName: (context) => ProfileScreen(),
+        SettingsScreen.routeName: (context) => SettingsScreen()
       },
     );
   }
