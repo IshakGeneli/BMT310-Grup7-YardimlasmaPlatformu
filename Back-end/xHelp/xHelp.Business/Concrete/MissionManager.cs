@@ -45,16 +45,9 @@ namespace xHelp.Business.Concrete
             return new SuccessfulDataResult<Mission>(mission,HttpStatusCode.Created);
         }
 
-        public async Task CreateEvidencesOnMission(CreateEvidenceListDTO createEvidenceListDTO)
+        public async Task CreateEvidenceOnMission(CreateEvidenceDTO createEvidenceDTO)
         {
-            var evidences = _mapper.Map<List<Evidence>>(createEvidenceListDTO.CreateEvidencesDTO);
-
-            foreach (var evidence in evidences)
-            {
-                evidence.MissionId = createEvidenceListDTO.MissionId;
-            }
-
-            await _evidenceService.AddEvidencesAsync(evidences);
+            await _evidenceService.AddEvidenceAsync(createEvidenceDTO);
         }
 
         public async Task<IResult> DeleteMissionAsync(int id)
