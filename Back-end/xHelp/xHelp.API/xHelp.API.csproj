@@ -21,9 +21,5 @@
     <ProjectReference Include="..\xHelp.DataAccess\xHelp.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Uploads\" />
-  </ItemGroup>
-
 
 </Project>
