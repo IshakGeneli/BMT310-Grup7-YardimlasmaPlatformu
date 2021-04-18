@@ -100,12 +100,12 @@ namespace xHelp.Business.Concrete
                 NormalizedEmail = userRegisterDTO.Email
             };
 
-            bool isRoleExisting = await _roleManager.RoleExistsAsync("Admin");
+            bool isRoleExisting = await _roleManager.RoleExistsAsync("User");
             if (!isRoleExisting)
             {
                 UserRole newRole = new UserRole
                 {
-                    Name = "Admin"
+                    Name = "User"
                 };
                 IdentityResult roleResult = await _roleManager.CreateAsync(newRole);
 
@@ -123,7 +123,7 @@ namespace xHelp.Business.Concrete
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, token, userRegisterDTO.Password);
 
-            _userManager.AddToRoleAsync(user, "Admin").Wait();
+            _userManager.AddToRoleAsync(user, "User").Wait();
             return new SuccessfulResult(HttpStatusCode.Created);
         }
 
