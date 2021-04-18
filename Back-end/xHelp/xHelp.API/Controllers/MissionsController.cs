@@ -11,7 +11,7 @@ using xHelp.Entity.DTOs;
 
 namespace xHelp.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
@@ -37,17 +37,17 @@ namespace xHelp.API.Controllers
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 
-        [HttpGet("getMissionByIdWtihEvidences/{id}")]
-        public async Task<IActionResult> GetMissionByIdWtihEvidences(int id)
+        [HttpGet("getMissionByIdWithEvidences/{id}")]
+        public async Task<IActionResult> GetMissionByIdWithEvidences(int id)
         {
             var result = await _missionService.GetMissionByIdWithEvidencesAsync(id);
             return StatusCode(result.HttpStatusCode, result.Data);
         }
 
-        [HttpPost("createEvidencesOnMission")]
-        public async Task<IActionResult> CreateEvidenceOnMission([FromBody] CreateEvidenceListDTO createEvidenceListDTO)
+        [HttpPost("createEvidenceOnMission")]
+        public async Task<IActionResult> CreateEvidenceOnMission([FromForm] CreateEvidenceDTO createEvidenceDTO)
         {
-            await _missionService.CreateEvidencesOnMission(createEvidenceListDTO);
+            await _missionService.CreateEvidenceOnMission(createEvidenceDTO);
             return StatusCode(200);
         }
 

@@ -123,7 +123,7 @@ namespace xHelp.Business.Concrete
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, token, userRegisterDTO.Password);
 
-            _userManager.AddToRoleAsync(newUser, "Admin").Wait();
+            _userManager.AddToRoleAsync(user, "Admin").Wait();
             return new SuccessfulResult(HttpStatusCode.Created);
         }
 
