@@ -38,6 +38,7 @@ dependencies:
 
   flutter_svg: ^0.19.1
   settings_ui: ^0.6.0
+  google_fonts: ^2.0.0
 module:
   androidX: true
 

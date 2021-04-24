@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login_signup/src/welcomePage.dart';
-
+import 'package:my_test/flutter_login_signup/welcomePage.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();

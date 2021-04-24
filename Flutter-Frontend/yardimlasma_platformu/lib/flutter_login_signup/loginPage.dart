@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login_signup/src/Widget/forgotPass.dart';
-import 'package:flutter_login_signup/src/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:my_test/flutter_login_signup/signup.dart';
 import 'Widget/bezierContainer.dart';
+import 'Widget/forgotPass.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);

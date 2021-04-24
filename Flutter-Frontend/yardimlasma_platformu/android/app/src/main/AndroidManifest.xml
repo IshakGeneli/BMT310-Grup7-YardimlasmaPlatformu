@@ -27,10 +27,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value=""/>
+            android:value="AIzaSyCwOu7nXLlcwo8Hh8O-3C89m2wmnh_iMCI"/>
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value=""/>
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
