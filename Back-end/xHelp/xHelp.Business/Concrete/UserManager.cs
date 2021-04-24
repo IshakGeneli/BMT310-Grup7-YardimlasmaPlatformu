@@ -115,9 +115,16 @@ namespace xHelp.Business.Concrete
                 }
             }
 
-            var uploadResult = await _cloudinaryOperations.UploadImageAsync(userRegisterDTO.ImageFile);
 
-            await AddUserWithImageAsync(newUser, uploadResult);
+            if (userRegisterDTO.ImageFile != null)
+            {
+                var uploadResult = await _cloudinaryOperations.UploadImageAsync(userRegisterDTO.ImageFile);
+                await AddUserWithImageAsync(newUser, uploadResult);
+            }
+            else
+            {
+                await _userDal.AddAsync(newUser);
+            }
 
             var user = await _userManager.FindByEmailAsync(userRegisterDTO.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
