@@ -3,7 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'ads/myBannerAd.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const String routeName = "/";
+  static const String routeName = "/home";
 
   @override
   Widget build(BuildContext context) {

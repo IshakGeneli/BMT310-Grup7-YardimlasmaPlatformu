@@ -5,6 +5,7 @@ import 'Widget/bezierContainer.dart';
 import 'Widget/forgotPass.dart';
 
 class LoginPage extends StatefulWidget {
+   static const String routeName = "/";
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: isPassword,
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
+                  fillColor: Colors.grey,
                   filled: true))
         ],
       ),
@@ -271,8 +272,8 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 14, fontWeight: FontWeight.w500)),
                     ),
                   ),
-                  /* _divider(),
-                  _facebookButton(), */
+                  //  _divider(),
+                  // _facebookButton(), 
                   SizedBox(height: height * .055),
                   _createAccountLabel(),
                 ],

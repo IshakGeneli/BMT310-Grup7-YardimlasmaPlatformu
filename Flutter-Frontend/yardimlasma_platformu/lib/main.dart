@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_test/flutter_login_signup/loginPage.dart';
 import 'package:my_test/homeScreen.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:my_test/views/profile/profile_screen.dart';
-
 import 'views/quest/questEvaluationScreen.dart';
 import 'views/quest/questFormScreen.dart';
 import 'views/quest/questListScreen.dart';
@@ -62,6 +62,7 @@ class MyAppState extends State<MyApp> {
         ),
       ),
       routes: {
+        LoginPage.routeName: (context) => LoginPage(),
         HomeScreen.routeName: (context) => HomeScreen(),
         QuestListScreen.routeName: (context) => QuestListScreen(),
         QuestFormScreen.routeName: (context) => QuestFormScreen(),
@@ -69,6 +70,7 @@ class MyAppState extends State<MyApp> {
         ProfileScreen.routeName: (context) => ProfileScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen()
       },
+    
     );
   }
 }
