@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/myBottomNavigationBar.dart';
+import 'package:my_test/services/missionService.dart';
 import 'infoList.dart';
 import 'questDetailScreen.dart';
 import '../../models/quest.dart';
@@ -14,7 +17,9 @@ class QuestListScreen extends StatefulWidget {
 }
 
 class _QuestListScreenState extends InfoListState {
-  final _quests = List<Quest>.generate(
+  MissionService _missionService = MissionService();
+
+  /*final _quests = List<Quest>.generate(
     30,
     (index) => Quest(
       'Gorev ${index + 1}',
@@ -28,24 +33,47 @@ class _QuestListScreenState extends InfoListState {
           "https://mir-s3-cdn-cf.behance.net/project_modules/1400/14331954471197.595cd9574ad45.jpg",
       hasFollowed: false,
     ),
-  );
+  );*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              snap: false,
-              floating: false,
-              expandedHeight: 160.0,
-              flexibleSpace: const FlexibleSpaceBar(
-                title: const Text("Quest Board"),
-                background: FlutterLogo(),
-              ),
-            ),
-            SliverList(
+        body: FutureBuilder<List<Quest>>(
+            future: _missionService.getList(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  var dataWithIndex = snapshot.data.asMap();
+
+                  return CustomScrollView(slivers: [
+                    SliverAppBar(
+                      pinned: true,
+                      snap: false,
+                      floating: false,
+                      expandedHeight: 160.0,
+                      flexibleSpace: const FlexibleSpaceBar(
+                        title: const Text("Quest Board"),
+                        background: FlutterLogo(),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          Quest q = dataWithIndex[index];
+                          return _buildListTile(context, q, index);
+                        },
+                        childCount: dataWithIndex.length,
+                      ),
+                    )
+                  ]);
+                } else {
+                  return Text("No data available...");
+                }
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+            })
+        /*SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   Quest q = _quests[index];
@@ -53,9 +81,8 @@ class _QuestListScreenState extends InfoListState {
                 },
                 childCount: _quests.length,
               ),
-            ),
-          ],
-        ),
+            ),*/
+        ,
         bottomNavigationBar: MyBottomNavigationBar());
   }
 
@@ -102,7 +129,7 @@ class _QuestListScreenState extends InfoListState {
           ],
         ),
       ),
-      onTap: () {
+      onTap: () async {
         Navigator.push(
             context,
             MaterialPageRoute(

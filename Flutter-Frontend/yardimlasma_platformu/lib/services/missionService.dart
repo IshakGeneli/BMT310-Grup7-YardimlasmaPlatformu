@@ -1,0 +1,40 @@
+import 'dart:convert';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_test/models/difficultyEnum.dart';
+import 'package:my_test/models/quest.dart';
+
+class MissionService {
+  final storage = new FlutterSecureStorage();
+
+  Future<List<Quest>> getList() async {
+    var token = await storage.read(key: 'jwt');
+
+    Map<String, String> headers = {'Authorization': 'Bearer ${token}'};
+    var response = (await http.get(
+        Uri.parse(
+            "http://projectforschool-001-site1.btempurl.com/api/Missions/getAllWithEvidences"),
+        headers: headers));
+
+    List<dynamic> responseObject = jsonDecode(response.body);
+    List<Quest> listOfQuest = [];
+
+    responseObject.forEach((element) {
+      Quest quest = Quest(
+          element["title"],
+          element["content"],
+          DateTime.parse(element["createdDate"]),
+          element["user"]["userName"],
+          Difficulty.values[element["difficulty"]],
+          id: element["id"],
+          location: LatLng(element["latitude"], element["longitude"]),
+          imageLink: element["missionImages"][0]["image"]["url"]);
+
+      listOfQuest.add(quest);
+    });
+
+    return listOfQuest;
+  }
+}

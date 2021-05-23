@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_test/flutter_login_signup/signup.dart';
+import 'package:my_test/models/loginUser.dart';
+import 'package:my_test/services/authService.dart';
+import 'package:my_test/views/quest/questListScreen.dart';
 import 'Widget/bezierContainer.dart';
 import 'Widget/forgotPass.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LoginPage extends StatefulWidget {
-   static const String routeName = "/";
+  static const String routeName = "/";
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -15,6 +20,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  LoginUser _loginUser;
+  AuthService _authService = AuthService();
+
+  final storage = new FlutterSecureStorage();
+
+  void isUserLogged() async {
+    var token = await storage.read(key: 'jwt');
+    bool hasExpired = JwtDecoder.isExpired(token);
+
+    if (!hasExpired) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => QuestListScreen()));
+    }
+  }
+
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -36,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _entryField(String title, {bool isPassword = false}) {
+  Widget _entryField(String title, TextEditingController textController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -51,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextField(
               obscureText: isPassword,
+              controller: textController,
               decoration: InputDecoration(
                   border: InputBorder.none,
                   fillColor: Colors.grey,
@@ -61,26 +85,38 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _submitButton() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-      child: Text(
-        'Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+    return InkWell(
+      onTap: () async {
+        _loginUser = LoginUser(
+            email: _emailTextController.text,
+            password: _passwordTextController.text);
+        var response = await _authService.login(_loginUser);
+        if (response) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => QuestListScreen()));
+        }
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+        child: Text(
+          'Login',
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
       ),
     );
   }
@@ -226,14 +262,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
+        _entryField("Email id", _emailTextController),
+        _entryField("Password", _passwordTextController, isPassword: true),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    isUserLogged();
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
@@ -273,7 +310,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   //  _divider(),
-                  // _facebookButton(), 
+                  // _facebookButton(),
                   SizedBox(height: height * .055),
                   _createAccountLabel(),
                 ],
@@ -284,5 +321,12 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
   }
 }

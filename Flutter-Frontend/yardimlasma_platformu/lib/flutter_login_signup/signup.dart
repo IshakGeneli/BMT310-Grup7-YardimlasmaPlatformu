@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_test/models/registerUser.dart';
 import 'package:my_test/services/authService.dart';
 import 'Widget/bezierContainer.dart';
@@ -17,8 +18,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final _usernameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  var _filePath = "";
   RegisterUser _registerUser;
   AuthService _authService = AuthService();
+
+  final _picker = ImagePicker();
 
   Widget _backButton() {
     return InkWell(
@@ -41,7 +45,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _entryField(String title, TextEditingController textController , {bool isPassword = false}) {
+  Widget _entryField(String title, TextEditingController textController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -49,7 +54,10 @@ class _SignUpPageState extends State<SignUpPage> {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.orange),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: Colors.orange),
           ),
           SizedBox(
             height: 10,
@@ -68,8 +76,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _submitButton() {
     return InkWell(
-      onTap: () {
-        _registerUser = RegisterUser(userName:_usernameTextController.text,email:_emailTextController.text,password:_passwordTextController.text);
+      onTap: () async {
+        _registerUser = RegisterUser(
+            userName: _usernameTextController.text,
+            email: _emailTextController.text,
+            password: _passwordTextController.text,
+            filePath: _filePath);
         _authService.register(_registerUser);
       },
       child: Container(
@@ -157,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Username",_usernameTextController),
+        _entryField("Username", _usernameTextController),
         _entryField("Email id", _emailTextController),
         _entryField("Password", _passwordTextController, isPassword: true),
       ],
@@ -190,6 +202,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 50,
                     ),
                     _emailPasswordWidget(),
+                    TextButton.icon(
+                        onPressed: () async {
+                          var file = await _picker.getImage(
+                              source: ImageSource.gallery);
+                          setState(() {
+                            _filePath = file.path;
+                          });
+                        },
+                        icon: Icon(Icons.file_upload),
+                        label: Text("Upload Profil Image")),
                     SizedBox(
                       height: 20,
                     ),
@@ -205,5 +227,13 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+    _usernameTextController.dispose();
   }
 }
