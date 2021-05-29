@@ -71,6 +71,8 @@ class _QuestListScreenState extends InfoListState {
                 }
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
+              }else{
+                return SizedBox();
               }
             })
         /*SliverList(

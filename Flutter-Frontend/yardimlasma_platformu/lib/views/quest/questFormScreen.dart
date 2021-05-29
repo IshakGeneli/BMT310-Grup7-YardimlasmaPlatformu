@@ -255,7 +255,7 @@ class _QuestFormScreenState extends State {
   }
 
   _getImage() async {
-    final pickedFile = await _imagePicker.getImage(source: ImageSource.camera);
+    final pickedFile = await _imagePicker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
