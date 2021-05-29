@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_test/flutter_login_signup/loginPage.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsScreen extends StatelessWidget {
   static String routeName = "/settings";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: Text("Settings")), body: Body());
@@ -10,7 +13,9 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  const Body({
+  final storage = new FlutterSecureStorage();
+
+  Body({
     Key key,
   }) : super(key: key);
 
@@ -39,7 +44,11 @@ class Body extends StatelessWidget {
           SettingsTile(
               title: 'Sign out',
               leading: Icon(Icons.logout),
-              onPressed: (BuildContext context) {})
+              onPressed: (BuildContext context) async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+                await storage.delete(key: "jwt");
+              })
         ]),
         SettingsSection(title: 'Security', tiles: [
           SettingsTile.switchTile(

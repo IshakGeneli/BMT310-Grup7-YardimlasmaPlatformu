@@ -71,7 +71,7 @@ class _QuestListScreenState extends InfoListState {
                 }
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
-              }else{
+              } else {
                 return SizedBox();
               }
             })
@@ -100,9 +100,12 @@ class _QuestListScreenState extends InfoListState {
         padding: EdgeInsets.fromLTRB(0, 10.0, 0, 25.0),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(
-            q.title,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          Expanded(
+            child: Text(
+              q.title,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+            ),
           ),
           Row(children: [
             buildDifficultyText(q.difficulty),

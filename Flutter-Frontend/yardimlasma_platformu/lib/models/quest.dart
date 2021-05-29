@@ -4,7 +4,6 @@ import 'package:geocoding/geocoding.dart';
 
 import 'difficultyEnum.dart';
 
-
 class Quest {
   int id;
   final String title;
@@ -24,10 +23,8 @@ class Quest {
     if (location != null) {
       try {
         List<Placemark> placemarks = await placemarkFromCoordinates(
-          location.latitude,
-          location.longitude,
-          localeIdentifier: "tr-TR",
-        );
+            location.latitude, location.longitude);
+
         return "${placemarks[0].locality} / ${placemarks[0].country}";
       } catch (e) {
         print(e.toString());

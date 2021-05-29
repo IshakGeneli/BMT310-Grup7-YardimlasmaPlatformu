@@ -93,8 +93,8 @@ class _LoginPageState extends State<LoginPage> {
             password: _passwordTextController.text);
         var response = await _authService.login(_loginUser);
         if (response) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => QuestListScreen()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()));
         }
       },
       child: Container(
