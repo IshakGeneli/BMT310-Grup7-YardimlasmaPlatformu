@@ -5,17 +5,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/models/quest.dart';
+import 'package:my_test/shared/constants.dart';
 
 class MissionService {
   final storage = new FlutterSecureStorage();
+  final _base_path = Constants.base_path;
 
   Future<List<Quest>> getList() async {
     var token = await storage.read(key: 'jwt');
 
     Map<String, String> headers = {'Authorization': 'Bearer ${token}'};
     var response = (await http.get(
-        Uri.parse(
-            "http://projectforschool-001-site1.btempurl.com/api/Missions/getAllWithEvidences"),
+        Uri.parse("$_base_path/Missions/getAllWithEvidences"),
         headers: headers));
 
     List<dynamic> responseObject = jsonDecode(response.body);
@@ -40,9 +41,7 @@ class MissionService {
 
   void createMission(Quest quest) async {
     var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            "http://projectforschool-001-site1.btempurl.com/api/Missions/createMission"));
+        'POST', Uri.parse("$_base_path/Missions/createMission"));
 
     request.fields['title'] = quest.title;
     request.fields['content'] = quest.description;
@@ -50,10 +49,9 @@ class MissionService {
     // request.fields['difficulty'] = "1";
     request.fields['latitude'] = quest.location.latitude.toString();
     request.fields['longitude'] = quest.location.longitude.toString();
-    request.files.add(
-        await http.MultipartFile.fromPath('picture', quest.imageLink));
+    request.files
+        .add(await http.MultipartFile.fromPath('picture', quest.imageLink));
 
     await request.send();
-  
   }
 }

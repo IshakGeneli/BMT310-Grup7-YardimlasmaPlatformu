@@ -4,18 +4,19 @@ import 'package:my_test/models/difficultyEnum.dart';
 import 'package:my_test/models/solution.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_test/shared/constants.dart';
 
 class SolutionService {
   final storage = new FlutterSecureStorage();
+  final _base_path = Constants.base_path;
+
   //questEvaluationScreen 50. Satir. Map yerine list ile alsin. Builder yerinede FutureBuilder.
   Future<List<Solution>> getSolutionList(String sender) async {
     var token = await storage.read(key: 'jwt');
 
     Map<String, String> headers = {'Authorization': 'Bearer ${token}'};
     var response = (await http.get(
-      Uri.parse(
-          "http://projectforschool-001-site1.btempurl.com/api/Evidences/getAllByMissionId/" +
-              sender),
+      Uri.parse("$_base_path/Evidences/getAllByMissionId/" + sender),
       headers: headers,
     ));
 
