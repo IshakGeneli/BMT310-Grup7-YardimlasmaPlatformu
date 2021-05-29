@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_test/flutter_login_signup/signup.dart';
+import 'package:my_test/homeScreen.dart';
 import 'package:my_test/models/loginUser.dart';
 import 'package:my_test/services/authService.dart';
 import 'package:my_test/views/quest/questListScreen.dart';
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (!hasExpired) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => QuestListScreen()));
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 

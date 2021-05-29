@@ -37,4 +37,23 @@ class MissionService {
 
     return listOfQuest;
   }
+
+  void createMission(Quest quest) async {
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            "http://projectforschool-001-site1.btempurl.com/api/Missions/createMission"));
+
+    request.fields['title'] = quest.title;
+    request.fields['content'] = quest.description;
+    request.fields['createdDate'] = quest.date.toString();
+    // request.fields['difficulty'] = "1";
+    request.fields['latitude'] = quest.location.latitude.toString();
+    request.fields['longitude'] = quest.location.longitude.toString();
+    request.files.add(
+        await http.MultipartFile.fromPath('picture', quest.imageLink));
+
+    await request.send();
+  
+  }
 }
