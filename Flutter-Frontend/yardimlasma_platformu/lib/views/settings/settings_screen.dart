@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:my_test/flutter_login_signup/loginPage.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -13,8 +11,6 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  final storage = new FlutterSecureStorage();
-
   Body({
     Key key,
   }) : super(key: key);
@@ -40,15 +36,7 @@ class Body extends StatelessWidget {
           SettingsTile(
               title: 'Email',
               leading: Icon(Icons.email),
-              onPressed: (BuildContext context) {}),
-          SettingsTile(
-              title: 'Sign out',
-              leading: Icon(Icons.logout),
-              onPressed: (BuildContext context) async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-                await storage.delete(key: "jwt");
-              })
+              onPressed: (BuildContext context) {})
         ]),
         SettingsSection(title: 'Security', tiles: [
           SettingsTile.switchTile(

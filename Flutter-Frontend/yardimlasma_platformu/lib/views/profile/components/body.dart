@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_test/flutter_login_signup/loginPage.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
+  final storage = new FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,7 +39,11 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Log Out",
             icon: "assets/icons/Log out.svg",
-            press: () {},
+            press: () async {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+              await storage.delete(key: "jwt");
+            },
           ),
         ],
       ),

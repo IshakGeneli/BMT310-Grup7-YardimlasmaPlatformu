@@ -50,11 +50,13 @@ class _QuestListScreenState extends InfoListState {
                       pinned: true,
                       snap: false,
                       floating: false,
+                      backgroundColor: Color(0xffe46b10),
                       expandedHeight: 160.0,
-                      flexibleSpace: const FlexibleSpaceBar(
-                        title: const Text("Quest Board"),
-                        background: FlutterLogo(),
-                      ),
+                      flexibleSpace: FlexibleSpaceBar(
+                          title: const Text("Görev Listesi"),
+                          titlePadding: EdgeInsets.only(top: 10),
+                          centerTitle: true,
+                          background: Image.asset("assets/images/task.png")),
                     ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(

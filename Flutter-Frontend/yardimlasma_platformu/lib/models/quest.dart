@@ -23,9 +23,10 @@ class Quest {
     if (location != null) {
       try {
         List<Placemark> placemarks = await placemarkFromCoordinates(
-            location.latitude, location.longitude);
+            location.latitude, location.longitude,
+            localeIdentifier: "tr-TR");
 
-        return "${placemarks[0].locality} / ${placemarks[0].country}";
+        return "${placemarks[0].country}";
       } catch (e) {
         print(e.toString());
       }
