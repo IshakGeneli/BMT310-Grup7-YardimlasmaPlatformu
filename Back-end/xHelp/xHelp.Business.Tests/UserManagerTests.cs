@@ -47,16 +47,16 @@ namespace xHelp.Business.Tests
             };
             _mockUserDal.Setup(m => m.GetListAsync(null).Result).Returns(_users);
         }
-        /*
+        
         [TestMethod]
         public async Task GetAllUserInformationsAsync()
         {
             // Arrange
-            IUserService _userService = new UserManager(_mockUserManager.Object, _mockRoleManager.Object, _mockSignInManager.Object, _mockConfiguration.Object, _mockUserDal.Object, _mockCloudinaryOperations.Object);
+            UserManager _userService = new UserManager(_mockUserManager.Object, _mockRoleManager.Object, _mockSignInManager.Object, _mockConfiguration.Object, _mockUserDal.Object, _mockCloudinaryOperations.Object);
             // Act
             List<User> users = (await _userService.GetAllUserInformationsAsync()).Data;
             // Assert
             Assert.AreEqual(5, users.Count);
-        }*/
+        }
     }
 }
