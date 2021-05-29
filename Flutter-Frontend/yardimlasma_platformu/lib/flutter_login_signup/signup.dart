@@ -82,7 +82,12 @@ class _SignUpPageState extends State<SignUpPage> {
             email: _emailTextController.text,
             password: _passwordTextController.text,
             filePath: _filePath);
-        _authService.register(_registerUser);
+        var res = await _authService.register(_registerUser);
+        if (res == 201) {
+          AlertDialog(title: Text("Welcome!"));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
+        } else {}
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

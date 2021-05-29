@@ -9,7 +9,7 @@ class AuthService {
   final storage = new FlutterSecureStorage();
   final _base_path = Constants.base_path;
 
-  void register(RegisterUser registerUser) async {
+  Future<int> register(RegisterUser registerUser) async {
     var request =
         http.MultipartRequest('POST', Uri.parse("$_base_path/Auth/register"));
 
@@ -18,8 +18,10 @@ class AuthService {
     request.fields['password'] = registerUser.password;
 
     request.files.add(
-        await http.MultipartFile.fromPath('picture', registerUser.filePath));
-    await request.send();
+        await http.MultipartFile.fromPath('ImageFile', registerUser.filePath));
+    var res = await request.send();
+
+    return res.statusCode;
   }
 
   Future<bool> login(LoginUser loginUser) async {
