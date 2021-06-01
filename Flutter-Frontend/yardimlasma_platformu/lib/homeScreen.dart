@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             Align(
-                //alignment: FractionalOffset.bottomCenter, child: MyBannerAd()
+                alignment: FractionalOffset.bottomCenter, child: MyBannerAd()
             ),
           ],
         ),
