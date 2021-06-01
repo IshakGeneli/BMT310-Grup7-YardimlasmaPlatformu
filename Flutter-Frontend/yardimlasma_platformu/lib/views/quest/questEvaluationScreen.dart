@@ -63,7 +63,7 @@ class _QuestEvaluationScreenState extends InfoListState {
         //         return SizedBox();
         //       }
         //     })
-         body: FutureBuilder<List<Quest>>(
+        body: FutureBuilder<List<Quest>>(
             future: _missionService.getList(),
             builder: (context, AsyncSnapshot<List<Quest>> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -83,8 +83,7 @@ class _QuestEvaluationScreenState extends InfoListState {
               } else {
                 return SizedBox();
               }
-            })
-            );
+            }));
   }
 
   @override
@@ -104,8 +103,8 @@ class _QuestEvaluationScreenState extends InfoListState {
           context,
           MaterialPageRoute(
             builder: (_) {
-              return ImageScreen(Image.network(quest.imageLink),
-                  "evaluationTag${quest.id}");
+              return ImageScreen(
+                  Image.network(quest.imageLink), "evaluationTag${quest.id}");
             },
           ),
         );
@@ -125,10 +124,12 @@ class _QuestEvaluationScreenState extends InfoListState {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        quest.title,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                      Expanded(
+                        child: Text(
+                          quest.title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20.0),
+                        ),
                       ),
                       buildDifficultyText(quest.difficulty, fontSize: 20.0),
                     ],
