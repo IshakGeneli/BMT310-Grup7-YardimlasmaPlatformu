@@ -37,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
             ),
-            Text('Back',
+            Text('Geri',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
           ],
         ),
@@ -57,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
-                color: Colors.orange),
+                color: Colors.green),
           ),
           SizedBox(
             height: 10,
@@ -105,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+                colors: [Colors.green, Colors.lightGreen])),
         child: Text(
           'Register Now',
           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Already have an account ?',
+              'Hesabın Var Mı?',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
             SizedBox(
@@ -137,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text(
               'Login',
               style: TextStyle(
-                  color: Color(0xfff79c4f),
+                  color: Colors.green,
                   fontSize: 13,
                   fontWeight: FontWeight.w600),
             ),
@@ -156,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
+            color: Colors.green,
           ),
           children: [
             TextSpan(
@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             TextSpan(
               text: 'Help',
-              style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
+              style: TextStyle(color: Colors.green, fontSize: 30),
             ),
           ]),
     );
@@ -174,9 +174,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Username", _usernameTextController),
-        _entryField("Email id", _emailTextController),
-        _entryField("Password", _passwordTextController, isPassword: true),
+        _entryField("Kullanıcı Adı", _usernameTextController),
+        _entryField("E-Post", _emailTextController),
+        _entryField("Şifre", _passwordTextController, isPassword: true),
       ],
     );
   }
@@ -216,7 +216,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           });
                         },
                         icon: Icon(Icons.file_upload),
-                        label: Text("Upload Profil Image")),
+                        label: Text("Profil Resmi Yükle")),
                     SizedBox(
                       height: 20,
                     ),

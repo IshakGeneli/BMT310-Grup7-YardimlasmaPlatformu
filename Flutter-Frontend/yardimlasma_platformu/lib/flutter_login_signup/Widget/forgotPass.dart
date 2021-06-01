@@ -82,8 +82,8 @@ class ResetPasswordPage extends StatelessWidget {
                               end: Alignment.bottomRight,
                               stops: [0.3, 1],
                               colors: [
-                                Color(0xFFF58524),
-                                Color(0XFFF92B7F),
+                                Colors.green,
+                                Colors.lightGreen,
                               ],
                             ),
                             borderRadius: BorderRadius.all(

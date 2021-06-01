@@ -72,6 +72,7 @@ class _QuestFormScreenState extends State {
                 ),
                 TextFormField(
                   controller: _titleController,
+                  autofocus: false,
                   autocorrect: false,
                   style: _inputTextStyle,
                   inputFormatters: [LengthLimitingTextInputFormatter(40)],
@@ -93,6 +94,7 @@ class _QuestFormScreenState extends State {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   controller: _descriptionController,
+                  autofocus: false,
                   autocorrect: false,
                   style: _inputTextStyle,
                   inputFormatters: [LengthLimitingTextInputFormatter(400)],
@@ -185,6 +187,7 @@ class _QuestFormScreenState extends State {
                 TextFormField(
                   controller: _addressController,
                   autocorrect: false,
+                  autofocus: false,
                   style: _inputTextStyle,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(200),
@@ -260,7 +263,7 @@ class _QuestFormScreenState extends State {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        print('Hiç Resim Seçilmedi.');
       }
     });
   }
@@ -268,5 +271,9 @@ class _QuestFormScreenState extends State {
   void _submit() {
     Quest quest = Quest(_titleController.text, _descriptionController.text,
         DateTime.now(), "userName", _difficulty);
+
+    _titleController.clear();
+    _addressController.clear();
+    _descriptionController.clear();
   }
 }

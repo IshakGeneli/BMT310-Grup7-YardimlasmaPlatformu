@@ -34,7 +34,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ],
             color: Colors.white),
         child: Text(
-          'Login',
+          'Giriş Yap',
           style: TextStyle(fontSize: 20, color: Color(0xfff7892b)),
         ),
       ),
@@ -56,7 +56,7 @@ class _WelcomePageState extends State<WelcomePage> {
           border: Border.all(color: Colors.white, width: 2),
         ),
         child: Text(
-          'Register now',
+          'Şimdi Kayıt Ol',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -95,7 +95,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          text: 'Welcome to ',
+          text: 'Hoş Geldiniz, ',
           style: GoogleFonts.portLligatSans(
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
@@ -108,7 +108,7 @@ class _WelcomePageState extends State<WelcomePage> {
               style: TextStyle(color: Colors.black, fontSize: 50),
             ),
             TextSpan(
-              text: 'Quest',
+              text: 'Görev',
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ]),
@@ -134,7 +134,7 @@ class _WelcomePageState extends State<WelcomePage> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xfffbb448), Color(0xffe46b10)])),
+                  colors: [Colors.green, Colors.lightGreen])),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

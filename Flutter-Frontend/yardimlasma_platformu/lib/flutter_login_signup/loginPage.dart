@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
             ),
-            Text('Back',
+            Text('Geri',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500))
           ],
         ),
@@ -113,9 +113,9 @@ class _LoginPageState extends State<LoginPage> {
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+                colors: [Colors.green, Colors.lightGreen])),
         child: Text(
-          'Login',
+          'Giriş Yap',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          Text('or'),
+          Text('ya da'),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
             flex: 1,
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff1959a9),
+                color: Colors.green,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(5),
                     topLeft: Radius.circular(5)),
@@ -178,23 +178,6 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
-                      fontWeight: FontWeight.w400)),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xff2872ba),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5)),
-              ),
-              alignment: Alignment.center,
-              child: Text('Log in with Facebook',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
                       fontWeight: FontWeight.w400)),
             ),
           ),
@@ -217,16 +200,16 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Don\'t have an account ?',
+              'Hesabın Yok Mu ?',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               width: 10,
             ),
             Text(
-              'Register',
+              'Kayıt Ol',
               style: TextStyle(
-                  color: Color(0xfff79c4f),
+                  color: Colors.green,
                   fontSize: 13,
                   fontWeight: FontWeight.w600),
             ),
@@ -245,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
             textStyle: Theme.of(context).textTheme.display1,
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            color: Color(0xffe46b10),
+            color: Colors.green,
           ),
           children: [
             TextSpan(
@@ -254,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextSpan(
               text: 'Help',
-              style: TextStyle(color: Color(0xffe46b10), fontSize: 40),
+              style: TextStyle(color: Colors.green, fontSize: 40),
             ),
           ]),
     );
@@ -263,8 +246,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Email id", _emailTextController),
-        _entryField("Password", _passwordTextController, isPassword: true),
+        _entryField("E-Posta", _emailTextController),
+        _entryField("Şifre", _passwordTextController, isPassword: true),
       ],
     );
   }
@@ -305,7 +288,7 @@ class _LoginPageState extends State<LoginPage> {
                             MaterialPageRoute(
                                 builder: (context) => ResetPasswordPage()));
                       },
-                      child: Text('Forgot Password ?',
+                      child: Text('Şifreni Unuttun mu?',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500)),
                     ),

@@ -71,7 +71,7 @@ class _QuestDetailScreenState extends State {
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Text(
-                  "Gonderen: ${_quest.questGiver}",
+                  "Gönderen: ${_quest.questGiver}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 Text(
@@ -90,7 +90,7 @@ class _QuestDetailScreenState extends State {
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildIconButton(Icons.search, "Kanit Yukle", () {
+          _buildIconButton(Icons.search, "Kanıt Yukle", () {
             _getImage();
           }),
           _buildIconButton(
@@ -102,7 +102,6 @@ class _QuestDetailScreenState extends State {
               _follow();
             });
           }),
-          _buildIconButton(Icons.message, "Iletisime Gec", null),
         ],
       )),
     );
@@ -195,7 +194,7 @@ class _QuestDetailScreenState extends State {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        print('Resim Seç.');
       }
     });
   }

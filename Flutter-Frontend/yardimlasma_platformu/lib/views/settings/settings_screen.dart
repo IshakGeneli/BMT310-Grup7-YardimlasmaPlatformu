@@ -6,7 +6,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Settings")), body: Body());
+    return Scaffold(appBar: AppBar(title: Text("Ayarlar")), body: Body());
   }
 }
 
@@ -23,29 +23,29 @@ class Body extends StatelessWidget {
       sections: [
         SettingsSection(title: 'Common', tiles: [
           SettingsTile(
-              title: 'Language',
-              subtitle: 'English',
+              title: 'Dil',
+              subtitle: 'Türkçe',
               leading: Icon(Icons.language),
               onPressed: (BuildContext context) {})
         ]),
-        SettingsSection(title: 'Account', tiles: [
+        SettingsSection(title: 'Hesabım', tiles: [
           SettingsTile(
-              title: 'Phone number',
+              title: 'Telefon Numarası',
               leading: Icon(Icons.phone),
               onPressed: (BuildContext context) {}),
           SettingsTile(
-              title: 'Email',
+              title: 'E-Posta',
               leading: Icon(Icons.email),
               onPressed: (BuildContext context) {})
         ]),
-        SettingsSection(title: 'Security', tiles: [
+        SettingsSection(title: 'Güvenlik', tiles: [
           SettingsTile.switchTile(
               title: 'Use fingerprint',
               leading: Icon(Icons.fingerprint),
               switchValue: true,
               onToggle: (bool value) {})
         ]),
-        SettingsSection(title: 'Misc', tiles: [
+        SettingsSection(title: 'Çeşitli', tiles: [
           SettingsTile(
               title: 'Terms of Service',
               leading: Icon(Icons.notes),
