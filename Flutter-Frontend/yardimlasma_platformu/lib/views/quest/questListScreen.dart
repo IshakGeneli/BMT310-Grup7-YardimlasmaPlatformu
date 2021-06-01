@@ -50,7 +50,7 @@ class _QuestListScreenState extends InfoListState {
                       pinned: true,
                       snap: false,
                       floating: false,
-                      backgroundColor: Color(0xffe46b10),
+                      backgroundColor: Colors.green,
                       expandedHeight: 160.0,
                       flexibleSpace: FlexibleSpaceBar(
                           title: const Text("Görev Listesi"),

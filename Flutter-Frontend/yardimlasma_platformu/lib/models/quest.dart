@@ -26,7 +26,7 @@ class Quest {
             location.latitude, location.longitude,
             localeIdentifier: "tr-TR");
 
-        return "${placemarks[0].country}";
+        return "${placemarks[0].locality + '/' + placemarks[0].country}";
       } catch (e) {
         print(e.toString());
       }

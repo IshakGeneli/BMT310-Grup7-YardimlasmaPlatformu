@@ -43,7 +43,6 @@ class HomeScreen extends StatelessWidget {
                           () {
                         Navigator.pushNamed(context, "/profile");
                       }),
-                      _buildButton(context, Icons.message, "Mesajlar", null),
                       _buildButton(context, Icons.settings, "Ayarlar", () {
                         Navigator.pushNamed(context, "/settings");
                       }),
@@ -53,7 +52,8 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             Align(
-                alignment: FractionalOffset.bottomCenter, child: MyBannerAd()),
+                //alignment: FractionalOffset.bottomCenter, child: MyBannerAd()
+            ),
           ],
         ),
       ),
