@@ -18,8 +18,13 @@ class MyBottomNavigationBar extends StatelessWidget {
                 Navigator.popAndPushNamed(context, '/questsList');
               },
               icon: const Icon(Icons.assignment)),
-          IconButton(onPressed: null, icon: const Icon(MdiIcons.accountCircle)),
-          IconButton(onPressed: null, icon: const Icon(Icons.settings)),
+          IconButton(onPressed: (){
+            Navigator.popAndPushNamed(context, '/profile');
+          }
+              , icon: const Icon(MdiIcons.accountCircle)),
+          IconButton(onPressed: (){
+            Navigator.popAndPushNamed(context, '/settings');
+          }, icon: const Icon(Icons.settings)),
         ]),
       ),
     );
